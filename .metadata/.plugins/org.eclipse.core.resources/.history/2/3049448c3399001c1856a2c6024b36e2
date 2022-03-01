@@ -1,0 +1,184 @@
+/**
+ * 
+ */
+package esconsumer_usersite.modulestestcases;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.Iterator;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import esconsumer_usersite.baseclass.BaseClass;
+import esconsumer_usersite.extendReport.MailSender;
+import esconsumer_usersite.modules.Conditions;
+import esconsumer_usersite.modules.Contact;
+import esconsumer_usersite.modules.ForgotPassword;
+import esconsumer_usersite.modules.Join;
+import esconsumer_usersite.modules.Login;
+import esconsumer_usersite.modules.MyAccount;
+import esconsumer_usersite.modules.ProfileSurveys;
+import esconsumer_usersite.modules.RedeemPoints;
+import esconsumer_usersite.modules.ReferFriends;
+
+/**
+ * @author Sunil Kashyap
+ *
+ * 24 Jun, 2021
+ */
+public class ESConsumerTestCase extends Login{
+
+	
+	Join join;
+	ProfileSurveys profileSurvey;
+	MyAccount myAccount;
+	RedeemPoints redeemPoints;
+	ReferFriends referFriends;
+	ForgotPassword forgotPassword;
+	Contact contact;
+	Conditions conditions;
+	
+	/**
+	 * This method is used to launched browser, enter url and login
+	 * 
+	 * @param browser
+	 * @param evmnt
+	 */
+	@Parameters({"browser","evmnt"})
+	@BeforeMethod
+	public void launchURL(String browser, String evmnt) {
+		browser(browser);
+		launchURL(evmnt);
+	}
+	
+	
+	@Test
+	public void eshealthcareTestcase() throws IOException, SQLException {
+		
+		
+		/*--------------------------Join Test Case -------------------------------*/
+		
+//		join=new Join(driver);
+//		
+//		Runtime.getRuntime().exec(System.getProperty("user.dir")+"/AutoIt/SetHmaES.exe");
+//		                  
+//		sleep(25000);
+//		join.getIPAddressAndMakeWhiteList();
+//		sleep(2000);
+//		Assert.assertEquals(join.join(readExcelData("Join", 1, 0), readExcelData("Join", 1, 1), readExcelData("Join", 1, 2), readExcelData("Join", 1, 3), readExcelData("Join", 1, 4),
+//				readExcelData("Join", 1, 5), readExcelData("Join", 1, 6), readExcelData("Join", 1, 7), readExcelData("Join", 1, 8), readExcelData("Join", 1, 9), readExcelData("Join", 1, 10), 
+//				readExcelData("Join", 1, 11), readExcelData("Join", 1, 12), readExcelData("Join", 1, 13)), true,"Join not created");
+//		
+//		sleep(2000);
+//		Runtime.getRuntime().exec(System.getProperty("user.dir")+"/AutoIt/TurnOffHMA.exe");      
+//		sleep(25000);
+//		System.out.println("Close HMA Successfully");
+//		
+//		//Open Office VPN manually
+//		sleep(15000);
+//		
+//		join.emailverificationStatusAfterJoin();
+//		sleep(2000);
+//		
+//		join.verifyEmailID(readExcelData("Join", 1, 6));
+//		sleep(2000);
+//		
+//		String emailStatus=join.emailVerificationStatusAfterVerifyEmail();
+//		try {
+//			if(emailStatus.equals("1")) {
+//				System.out.println("Email Verification status from DB after verified Email - "+emailStatus);
+//			}
+//		} catch (Exception e) {
+//			System.out.println("Join email is not verified and email status is - "+emailStatus);
+//		}
+		
+		/*--------------------------Profile Survey Test Case -------------------------------*/
+		
+		
+		login();
+//		profileSurvey=new ProfileSurveys(driver);
+//		
+//		System.out.println(profileSurvey.getUserID());
+//		sleep(2000);
+//		profileSurvey.openProfileSurveyPage();
+//		sleep(3000);
+//		profileSurvey.clickOnCategory();
+//		sleep(2000);
+//		profileSurvey.fillQuestion();
+//		sleep(2000);
+//		System.out.println("------------------matched ans with DB -------------------");
+//		Iterator<WebElement> itr = profileSurvey.questions.iterator();
+//		while (itr.hasNext()) {
+//			WebElement webElement = itr.next();
+//			profileSurvey.getQuestions(webElement);
+//	//		profileSurvey.getQuestionID(webElement);
+//			Assert.assertEquals(profileSurvey.getAnswerIDFromUI(), profileSurvey.getAnswerIdFromDB(),"Answer Id is not matched");
+//		}
+//		
+		
+		/*--------------------------MyAccount Test Case -------------------------------*/
+		
+//		myAccount=new MyAccount(driver);
+//		Assert.assertEquals(myAccount.getUserNm(), myAccount.getDatafromDB(3),"User Name is not matched");
+//		BaseClass.sleep(1000);
+//		Assert.assertEquals(myAccount.getFirstNm(), myAccount.getDatafromDB(4),"First Name is not matched");
+//		BaseClass.sleep(1000);
+//		Assert.assertEquals(myAccount.getLastNM(), myAccount.getDatafromDB(5),"Last Name is not matched");
+//		BaseClass.sleep(1000);
+//		Assert.assertEquals(myAccount.updateEmailID(), myAccount.getDatafromDB(6),"Email ID is not updated");
+//		BaseClass.sleep(1000);
+//		Assert.assertEquals(myAccount.address1(), myAccount.getAddress1fromDB(),"Address is not matched");
+//		BaseClass.sleep(1000);
+//		Assert.assertEquals(myAccount.updateAddress1(), myAccount.getUpdatedAddressFromDB(),"Updated Address is not matched");
+//		BaseClass.sleep(1000);
+//		Assert.assertTrue(myAccount.changePassword());
+//		BaseClass.sleep(1000);
+//		Assert.assertEquals(myAccount.getEmailCountPerDay(), myAccount.getEmailCountPerDayFrmDB(),"Email count is not matched");
+//		BaseClass.sleep(1000);
+//		Assert.assertTrue(myAccount.addNewContact());
+//		
+//		
+		/*--------------------------Redeem Test Case -------------------------------*/
+		
+//		redeemPoints=new RedeemPoints(driver);
+//		Assert.assertEquals(redeemPoints.makeRedeem(), "Redeem done successfully");
+		
+		/*--------------------------Refer Friends Test Case -------------------------------*/
+		referFriends=new ReferFriends(driver);		
+		Assert.assertTrue(referFriends.referFriendsByEmail());
+		
+		/*--------------------------Forgot Password Test Case -------------------------------*/
+		forgotPassword=new ForgotPassword(driver);
+		Assert.assertEquals(forgotPassword.forgotPasswordEmail(readExcelData("ForgotPassword", 1, 0)), forgotPassword.msg);
+		
+		
+		/*--------------------------Contact Us Test Case -------------------------------*/
+		
+		contact=new Contact(driver);
+		Assert.assertTrue(contact.verifyContactUsPage(),"Contact Us page is not open");
+		
+		/*--------------------------Conditions Test Case -------------------------------*/
+		
+		conditions= new Conditions(driver);
+		Assert.assertEquals(conditions.termAndConditions(), "Lo más importante respecto a nuestras condiciones de participación es:");
+		Assert.assertEquals(conditions.privacyPolicyPage(), "Política de Privacidad");
+		Assert.assertEquals(conditions.faqPage(), "Preguntas frecuentes");
+		
+		
+	}
+	/**
+	 * This method is used to close browser
+	 */
+	@AfterMethod
+	public void closeBrowser() {
+		driver.close();
+	}
+}

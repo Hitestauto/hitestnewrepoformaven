@@ -1,0 +1,84 @@
+package esconsumer_usersite.modules;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import esconsumer_usersite.baseclass.BaseClass;
+
+
+/**
+ * This Class is used for Login in US Healthcare user side
+ * 
+ * @author Sunil Kashyap
+ *
+ * 25 Mar, 2021
+ */
+public class Login extends BaseClass {
+
+	@FindBy(xpath = "//a[text()=' Acceso']") WebElement logIn;
+	@FindBy(id = "txtUserName") WebElement  userName;
+	@FindBy(id = "Password") WebElement password;
+	@FindBy(id = "LoginBtn") WebElement submitBtn;
+
+	@FindBy(xpath = "//h1[text()='Estudios']") WebElement surveytext;
+	
+	/**
+	 * This method is used to login in login page by enter username, password 
+	 */
+	public void login() {
+		
+		PageFactory.initElements(driver, this);
+		BaseClass.implicitilyWait(driver, 10);
+		logIn.click();
+		BaseClass.implicitilyWait(driver, 10);
+		Map<String, String> map=new HashMap<String, String>();
+		
+		BaseClass.loadTestDataFile();
+		try {
+			
+			if(BaseClass.currentURL.contains("stg")) {
+				map.put(prop.getProperty("username"), prop.getProperty("password"));
+			}
+			else {
+				map.put(prop.getProperty("produsername"), prop.getProperty("prodpassword"));
+			}
+		} catch (Exception e) {
+			System.out.println("Credential is not correct");
+		}
+		
+		for(Map.Entry<String, String> value : map.entrySet()) 
+		{
+			String usrnm=value.getKey();
+			String pwd=value.getValue();
+			
+			userName.sendKeys(usrnm);
+			password.sendKeys(pwd);
+			BaseClass.sleep(1000);
+			submitBtn.click();
+			BaseClass.implicitilyWait(driver, 10);
+			loginVerification();
+			
+		}
+	}
+	
+	/**
+	 * This method is used to verify login 
+	 * 
+	 * @return
+	 */
+	public boolean loginVerification() {
+		try {
+			if(surveytext.isDisplayed()==true) {
+				System.out.println("Login successfully");
+			}
+			return true;
+		} catch (Exception e) {
+			System.out.println("Unable to login - "+e.getMessage());
+			return false;
+		}
+	}
+}

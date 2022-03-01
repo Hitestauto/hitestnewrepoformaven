@@ -1,0 +1,116 @@
+2022-03-01 11:54:48,288 [Worker-2] INFO  c.g.t.t.d.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2022-03-01 11:55:36,945 [Worker-19] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: ESConsumer:ESConsumer:0.0.1-SNAPSHOT @ E:\New folder\ESConsumer\pom.xml.
+2022-03-01 11:55:42,818 [Worker-19] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /ESConsumer/src/main/java
+2022-03-01 11:55:42,819 [Worker-19] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /ESConsumer/src/test/java
+2022-03-01 11:55:43,603 [Worker-19] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 1 project(s) in 10 sec
+2022-03-01 11:55:47,536 [Worker-1] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 11:55:47,538 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\main\resources
+2022-03-01 11:55:47,540 [Worker-1] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 11:55:47,541 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\test\resources
+2022-03-01 11:58:04,663 [Worker-5] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2022-03-01 11:58:05,219 [Worker-5] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: ESConsumer:ESConsumer:0.0.1-SNAPSHOT @ E:\New folder\ESConsumer\pom.xml.
+2022-03-01 11:58:06,032 [Worker-5] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /ESConsumer/src/main/java
+2022-03-01 11:58:06,032 [Worker-5] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /ESConsumer/src/test/java
+2022-03-01 11:58:06,367 [Worker-5] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 1 sec
+2022-03-01 11:58:07,483 [Worker-16] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 11:58:07,483 [Worker-16] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\main\resources
+2022-03-01 11:58:07,491 [Worker-16] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 11:58:07,491 [Worker-16] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\test\resources
+2022-03-01 12:00:05,817 [Worker-17] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 12:00:05,817 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\main\resources
+2022-03-01 12:00:05,817 [Worker-17] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 12:00:05,824 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\test\resources
+2022-03-01 12:04:15,543 [Worker-17] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Collecting project info '/pom.xml' E:\AzureHitestdemo\HitestD\pom.xml
+2022-03-01 12:04:16,620 [Worker-17] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: HItestDemo:HitestD:0.0.1-SNAPSHOT @ E:\AzureHitestdemo\HitestD\pom.xml.
+2022-03-01 12:04:16,736 [Worker-17] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HitestD/src/main/java
+2022-03-01 12:04:16,736 [Worker-17] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HitestD/src/test/java
+2022-03-01 12:04:16,820 [Worker-17] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 1 project(s) in 1 sec
+2022-03-01 12:04:17,090 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:04:17,090 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\main\resources
+2022-03-01 12:04:17,090 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:04:17,090 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\test\resources
+2022-03-01 12:04:51,749 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 12:04:51,749 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\main\resources
+2022-03-01 12:04:51,749 [Worker-7] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 12:04:51,749 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\test\resources
+2022-03-01 12:04:51,749 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:04:51,749 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\main\resources
+2022-03-01 12:04:51,749 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:04:51,749 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\test\resources
+2022-03-01 12:05:25,232 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:05:25,232 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\main\resources
+2022-03-01 12:05:25,232 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:05:25,232 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\test\resources
+2022-03-01 12:08:40,305 [Worker-18] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using null lifecycle mapping for MavenProject: HItestDemo:HitestD:0.0.1-SNAPSHOT @ E:\AzureHitestdemo\HitestD\pom.xml.
+2022-03-01 12:09:21,223 [Worker-22] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: HItestDemo:HitestD:0.0.1-SNAPSHOT @ E:\AzureHitestdemo\HitestD\pom.xml.
+2022-03-01 12:09:21,947 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:09:21,947 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\main\resources
+2022-03-01 12:09:21,949 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:09:21,949 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\test\resources
+2022-03-01 12:09:24,617 [Worker-19] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: HItestDemo:HitestD:0.0.1-SNAPSHOT @ E:\AzureHitestdemo\HitestD\pom.xml.
+2022-03-01 12:09:25,241 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:09:25,241 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\main\resources
+2022-03-01 12:09:25,241 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:09:25,241 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\test\resources
+2022-03-01 12:12:36,793 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:12:36,793 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\main\resources
+2022-03-01 12:12:36,793 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:12:36,793 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\test\resources
+2022-03-01 12:14:50,880 [Worker-24] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2022-03-01 12:14:51,281 [Worker-24] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: HItestDemo:HitestD:0.0.1-SNAPSHOT @ E:\AzureHitestdemo\HitestD\pom.xml.
+2022-03-01 12:14:51,967 [Worker-24] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: ESConsumer:ESConsumer:0.0.1-SNAPSHOT @ E:\New folder\ESConsumer\pom.xml.
+2022-03-01 12:14:52,480 [Worker-24] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HitestD/src/main/java
+2022-03-01 12:14:52,481 [Worker-24] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HitestD/src/test/java
+2022-03-01 12:14:52,751 [Worker-24] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 1 sec
+2022-03-01 12:14:53,321 [Worker-25] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 12:14:53,337 [Worker-25] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\main\resources
+2022-03-01 12:14:53,337 [Worker-25] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 12:14:53,337 [Worker-25] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\test\resources
+2022-03-01 12:14:53,738 [Worker-25] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:14:53,738 [Worker-25] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\main\resources
+2022-03-01 12:14:53,738 [Worker-25] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:14:53,738 [Worker-25] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\test\resources
+2022-03-01 12:15:24,075 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:15:24,075 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\main\resources
+2022-03-01 12:15:24,075 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:15:24,075 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\test\resources
+2022-03-01 12:15:39,738 [Worker-25] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:15:39,738 [Worker-25] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\main\resources
+2022-03-01 12:15:39,738 [Worker-25] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:15:39,738 [Worker-25] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\test\resources
+2022-03-01 12:16:35,319 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:16:35,319 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\main\resources
+2022-03-01 12:16:35,319 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 12:16:35,319 [Worker-19] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\test\resources
+2022-03-01 13:09:20,274 [Worker-37] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: HItestDemo:HitestD:0.0.1-SNAPSHOT @ E:\AzureHitestdemo\HitestD\pom.xml.
+2022-03-01 13:09:21,612 [Worker-37] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 13:09:21,612 [Worker-37] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\main\resources
+2022-03-01 13:09:21,613 [Worker-37] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 13:09:21,614 [Worker-37] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\test\resources
+2022-03-01 13:10:35,618 [Worker-34] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2022-03-01 13:10:36,143 [Worker-34] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: HItestDemo:HitestD:0.0.1-SNAPSHOT @ E:\AzureHitestdemo\HitestD\pom.xml.
+2022-03-01 13:10:37,028 [Worker-34] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: ESConsumer:ESConsumer:0.0.1-SNAPSHOT @ E:\New folder\ESConsumer\pom.xml.
+2022-03-01 13:10:37,773 [Worker-34] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HitestD/src/main/java
+2022-03-01 13:10:37,774 [Worker-34] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HitestD/src/test/java
+2022-03-01 13:10:38,216 [Worker-34] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 2 sec
+2022-03-01 13:10:39,323 [Worker-37] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 13:10:39,325 [Worker-37] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\main\resources
+2022-03-01 13:10:39,327 [Worker-37] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 13:10:39,328 [Worker-37] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\test\resources
+2022-03-01 13:10:39,839 [Worker-37] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 13:10:39,840 [Worker-37] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\main\resources
+2022-03-01 13:10:39,841 [Worker-37] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-03-01 13:10:39,841 [Worker-37] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\AzureHitestdemo\HitestD\src\test\resources
+2022-03-01 13:14:41,050 [Worker-40] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: ESConsumer:ESConsumer:0.0.1-SNAPSHOT @ E:\New folder\ESConsumer\pom.xml.
+2022-03-01 13:14:42,454 [Worker-40] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 13:14:42,456 [Worker-40] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\main\resources
+2022-03-01 13:14:42,458 [Worker-40] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 13:14:42,459 [Worker-40] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\test\resources
+2022-03-01 13:14:45,006 [Worker-44] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 13:14:45,007 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\main\resources
+2022-03-01 13:14:45,007 [Worker-44] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 13:14:45,010 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\test\resources
+2022-03-01 13:15:22,359 [Worker-40] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 13:15:22,362 [Worker-40] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\main\resources
+2022-03-01 13:15:22,363 [Worker-40] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2022-03-01 13:15:22,364 [Worker-40] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory E:\New folder\ESConsumer\src\test\resources

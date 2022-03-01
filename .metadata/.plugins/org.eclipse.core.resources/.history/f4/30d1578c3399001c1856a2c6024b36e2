@@ -1,0 +1,257 @@
+/**
+ * 
+ */
+package esconsumer_usersite.modules;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import esconsumer_usersite.baseclass.BaseClass;
+
+
+/**
+ * This Class is used here to refer a friends from email id and through links
+ * 
+ * @author Sunil Kashyap
+ *
+ * 25 Sep, 2020
+ */
+public class ReferFriends {
+	
+	@FindBy(xpath = "//ul[@id='sidebarul']/descendant::a[5]") WebElement referFriends;
+	@FindBy(id = "ReferName") WebElement referName;
+	@FindBy(id = "ReferEmail") WebElement referEmailId;
+	@FindBy(id = "btnSave") WebElement submitBtn;
+	@FindBy(xpath = "//div[@id='toast-container']/div/div") WebElement referMsg;
+	
+	@FindBy(xpath = "(//a[text()='Cerrar sesión'])[1]") WebElement logout;
+	//@FindBy(id = "addOverlay") WebElement emailTextField;
+	@FindBy(id = "search") WebElement emailTextField;
+	@FindBy(xpath = "//td[contains(text(),'Un amigo suyo le invitó a')]") List<WebElement> referLinkonMail;
+	@FindBy(xpath = "//a[text()='Haga clic aquí']") WebElement clickhereLink;
+	@FindBy(xpath = "//a[text()='Regístrese']") WebElement joinText;
+	
+	@FindBy(xpath = "//a[text()='Política de Privacidad']") WebElement privacyPolicyLink;
+	@FindBy(xpath = "//h3[text()='Privacy Policy']") WebElement privacyPolicyTxt;
+	
+	@FindBy(xpath = "//a[text()='Condiciones de Uso']") WebElement termAndConditionLink;
+	@FindBy(xpath = "//strong[contains(text(),'Lo más importante respecto')]") WebElement termConditionstxt;
+	
+	@FindBy(xpath = "(//a[contains(text(),'sagunsdiemeinung.de')])[1]") WebElement link;
+	
+	WebDriver driver;
+	String message=null;
+	public ReferFriends(WebDriver driver) {
+		
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	/**
+	 *Open Refer friends page  
+	 */
+	public void openReferFriendsPage() {
+		referFriends.click();
+		BaseClass.implicitilyWait(driver, 10);
+	}
+	
+	/**
+	 * This method is used to Refer Friends by Email ID
+	 * 
+	 * @param name
+	 * @param emailID
+	 * @return
+	 * @throws SQLException
+	 */
+	public String referByEmail(String name, String emailID) throws SQLException {
+		
+		openReferFriendsPage();
+		BaseClass.implicitilyWait(driver, 10);
+		referName.sendKeys(name);
+		BaseClass.implicitilyWait(driver, 10);
+		referEmailId.sendKeys(emailID);
+		System.out.println("Refer Friends Email ID - "+emailID);
+		BaseClass.implicitilyWait(driver, 10);
+		submitBtn.click();
+		message=referMsg.getText();
+
+		if(message.equalsIgnoreCase("Erfolgreich weiterempfohlen.")) {
+			System.out.println("Referred a Friends successfully");
+			return message;
+		}
+		else if(message.equals("Diese E-Mail-Adresse existiert bereits. Geben Sie bitte eine andere E-Mail-Adresse ein.")) {
+			System.out.println("You have already referred this email address.");
+			return message;
+		}
+		else {
+			System.out.println("Please enter email id");
+			return "Please enter email id";
+		}
+	}
+	
+	/**
+	 * This method is used to get Refer Date and time from DB
+	 * 
+	 * @return
+	 * @throws SQLException
+	 * @throws IOException 
+	 */
+	public String getEmailIDfromDB() throws IOException, SQLException {
+		
+		BaseClass.queryfile();
+		Properties props = BaseClass.prop;
+		String query=props.getProperty("referUsers")+"'"+BaseClass.readExcelData("ReferFriends", 1, 1)+"'";
+		BaseClass.implicitilyWait(driver, 10);
+		
+		DatabaseIntegrations.executeQuery(query, 4);
+		String email = DatabaseIntegrations.getColumnValue();
+		System.out.println("Got Referred Email ID from DB- "+email);
+
+		if(message.equalsIgnoreCase("Erfolgreich weiterempfohlen.")) {
+			return message;
+		}
+		else if(message.equalsIgnoreCase("Diese E-Mail-Adresse existiert bereits. Geben Sie bitte eine andere E-Mail-Adresse ein.")) {
+			return message;
+		}
+		else {
+			return "Please enter email id";
+		}
+		
+	}
+	
+	public boolean referFriendsByEmail() {
+		
+
+		openReferFriendsPage();
+		BaseClass.implicitilyWait(driver, 10);
+		String getRandomEmail=BaseClass.generateRandomChars()+"@mailinator.com";
+		referName.sendKeys("Test");
+		BaseClass.implicitilyWait(driver, 10);
+		referEmailId.sendKeys(getRandomEmail);
+		BaseClass.implicitilyWait(driver, 10);
+		submitBtn.click();
+		message=referMsg.getText();
+		BaseClass.sleep(10000);
+		logout.click();
+		
+		openMailinatorNewTab(getRandomEmail);
+		BaseClass.sleep(2000);
+		checkPrivacyPolicyLink(privacyPolicyLink);
+		BaseClass.sleep(1000);
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		
+		checktermAndConditionLink(termAndConditionLink);
+		BaseClass.sleep(1000);
+		driver.switchTo().window(tabs.get(1));
+		
+		checkJoinLink(clickhereLink);
+		BaseClass.sleep(1000);
+		driver.switchTo().window(tabs.get(1));
+		BaseClass.sleep(1000);
+		driver.switchTo().window(tabs.get(2));
+		String txt=joinText.getText();
+		driver.close();
+		BaseClass.sleep(3000);
+		driver.switchTo().window(tabs.get(1));
+		driver.close();
+		
+		driver.switchTo().window(tabs.get(0));
+		BaseClass.sleep(3000);
+		if(txt.equalsIgnoreCase("Regístrese")) {
+			System.out.println(message+" and Join link is working");
+			return true;
+		}else{
+			System.out.println(message+" and Join link is not working");
+			return false;
+		}
+		
+	}
+	public void checkJoinLink(WebElement ele) {
+		
+		driver.switchTo().frame("html_msg_body");
+		((JavascriptExecutor)driver).executeScript("arguments[0].click();", ele);
+	}
+	
+	public void verifyDEConsumersiteLink(WebElement ele) {
+		driver.switchTo().frame("html_msg_body");
+		((JavascriptExecutor)driver).executeScript("arguments[0].click();", ele);
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		BaseClass.sleep(1000);
+		driver.switchTo().window(tabs.get(1));
+	}
+
+	public void openMailinatorNewTab(String email) {
+	
+		((JavascriptExecutor)driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		driver.navigate().to("https://www.mailinator.com/");
+		BaseClass.sleep(5000);
+		
+		emailTextField.sendKeys(email);
+		emailTextField.sendKeys(Keys.ENTER);
+		BaseClass.sleep(1000);
+		driver.navigate().refresh();
+		BaseClass.sleep(5000);
+		
+		Iterator<WebElement> itr = referLinkonMail.iterator();
+		while (itr.hasNext()) {
+				
+			 WebElement webelement = itr.next();
+			 String values=webelement.getText();
+			if(values.equalsIgnoreCase("Un amigo suyo le invitó a participar en PersonasConOpinion.com")) {
+				webelement.click();
+				break;
+			}
+		}
+		BaseClass.sleep(1000);
+		driver.navigate().refresh();
+		BaseClass.sleep(5000);
+	}
+	public void checktermAndConditionLink(WebElement ele) {
+		
+		driver.switchTo().frame("html_msg_body");
+		((JavascriptExecutor)driver).executeScript("arguments[0].click();", ele);
+		
+		BaseClass.sleep(2000);
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(2));
+		
+		String txt=termAndConditionLink.getText();
+		if(txt.equalsIgnoreCase("Lo más importante respecto a nuestras condiciones de participación es:")) {
+			System.out.println("Terms and Conditions link is working");
+		}else{
+			System.out.println("Terms and Conditions link is not working");
+		}
+	}
+	
+	public void checkPrivacyPolicyLink(WebElement ele) {
+
+		driver.switchTo().frame("html_msg_body");
+		((JavascriptExecutor)driver).executeScript("arguments[0].click();", ele);
+		
+		BaseClass.sleep(2000);
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(2));
+		
+		String txt=privacyPolicyLink.getText();
+		if(txt.equalsIgnoreCase("Política de Privacidad")) {
+			System.out.println("Privacy policy link is working");
+		}else{
+			System.out.println("Privacy policy link is not working");
+		}
+	}
+	
+}

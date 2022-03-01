@@ -1,0 +1,515 @@
+/**
+ * 
+ */
+package esconsumer_usersite.modules;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import esconsumer_usersite.baseclass.BaseClass;
+
+/**
+ * @author Sunil Kashyap
+ *
+ * 5 Oct, 2020
+ */
+public class RedeemPoints {
+	
+	@FindBy(xpath = "//a[contains(text(),'MI cuenta')]") WebElement accountInformation;
+	@FindBy(id = "Password") WebElement myAccountPagePwd;
+	@FindBy(id = "btnPasswordValidate") WebElement submitButton;
+	@FindBy(xpath = "//input[@id='Email']") WebElement emailIdTxt;
+	@FindBy(xpath = "//ul[@id='sidebarul']/descendant::a[4]") WebElement rewards;
+	@FindBy(id = "Password") WebElement passwordFields;
+	@FindBy(id = "btnPasswordValidate") WebElement submitBtn; 
+	@FindBy(xpath = "//div[@id='divRedeemmVerifyPointBalance']/descendant::b[1]") WebElement redeemPointsBalance;
+	@FindBy(xpath = "//p[contains(text(),'Tarjetas de regalo electrónicas ')]") WebElement eGiftCard;
+	@FindBy(xpath = "(//div[contains(@id,'catalogdiv')]/descendant::img)[1]") WebElement selectedFirstRewardOption;
+	@FindBy(xpath = "//select[@id='rwrdoptns']") WebElement selectRewardBalance;
+	@FindBy(id = "btnSubmit") WebElement submitBtns;
+	@FindBy(xpath = "//div[contains(@id,'toast-container')]/div/div") WebElement statusMsg;
+	
+	//My Points xpaths
+	@FindBy(xpath = "//input[@id='hdnRemainingPoints']/following-sibling::a") WebElement moreInfoBtn;
+	@FindBy(xpath = "//div[@id='SurveyPoints']/descendant::button") List<WebElement> timeBtn;
+	@FindBy(xpath = "//div[@id='SurveyPoints']/descendant::h3") WebElement surveyPointstext;
+	
+	@FindBy(xpath = "//div[@id='myModal']/following-sibling::div[1]/descendant::h3") WebElement totalPoint;
+	@FindBy(xpath = "//h1[contains(text(),'Rewards')]") WebElement rewardsTxt;
+	@FindBy(xpath = "//div[@id='catalogdiv']/descendant::div[5]") WebElement firstGiftCardText;
+	
+	// Admin xpath
+	@FindBy(id = "UserName") WebElement usrnm;
+	@FindBy(id = "Password") WebElement pass;
+	@FindBy(id = "LoginBtn") WebElement login;
+	@FindBy(xpath = "//a[text()='Redemption']") WebElement redemptionBtn;
+	@FindBy(xpath = "//button[text()=' Filters']") WebElement filterBtn;
+	@FindBy(id = "txtEmailSearch") WebElement searchByEmailField;
+	@FindBy(id = "btnSearch") WebElement searchBtn;
+	
+	@FindBy(xpath = "//table[@id='tblVirtual']/tbody/tr/td[3]") WebElement emailFromSearchTable;
+	@FindBy(xpath = "//table[@id='tblVirtual']/tbody/tr/td[6]") WebElement redemptionPoints;
+	@FindBy(xpath = "//table[@id='tblVirtual']/tbody/tr/td[7]") WebElement redeemAmountFromSearchTable;
+	@FindBy(xpath = "//table[@id='tblVirtual']/tbody/tr/td[8]") WebElement conCurrencyCode;
+	@FindBy(xpath = "//table[@id='tblVirtual']/tbody/tr/td[11]") WebElement GiftOptionFromSearchTable;
+	@FindBy(xpath = "//a[contains(@name,'Cancel')]") List<WebElement> cancelRedemption;
+	@FindBy(xpath = "//h4[text()='Cancel Redemption']/ancestor::div[1]/following-sibling::div/descendant::input") WebElement cancelText;
+	@FindBy(xpath = "//h4[text()='Cancel Redemption']/ancestor::div[2]/descendant::button[3]") WebElement confirmBtn;
+	@FindBy(xpath = "//div[@id='toast-container']/div/div[2]") WebElement cancelMsg;
+	
+	@FindBy(xpath = "//div[@id='catalogdiv']/descendant::div[@class='panel-footer']") List<WebElement> availableAllCard;
+	
+	WebDriver driver;
+	public static String redeemStatusMsg=null;
+	String emailid=null;
+	String queries="order by RequestDate desc";
+	
+	String redemptionRequestPoints=null;
+	String giftcardName=null;
+	String redeemAmount=null;
+	String currencyCode=null;
+	
+	String totalpoints=null;
+	
+	public RedeemPoints(WebDriver driver){
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	/**
+	 *  This method is used to click on Redeem Point
+	 */
+	public void clickOnRedeemPointsLink() {
+		
+		clickOnMyAccountLink();
+		BaseClass.sleep(1000);
+		rewards.click();
+		BaseClass.sleep(2000);
+		
+		BaseClass.loadTestDataFile();
+		Properties props = BaseClass.prop;
+		try {
+			if(BaseClass.currentURL.contains("stg")) {
+				passwordFields.sendKeys(props.getProperty("password"));
+			}
+			else {
+				passwordFields.sendKeys(props.getProperty("prodpassword"));
+			}
+		} catch (Exception e) {
+			System.out.println("password is not correct");
+		}
+		submitBtn.click();
+	}
+	
+	/**
+	 *This method is used for click on My Account and get member Id from account page 
+	 */
+	public void clickOnMyAccountLink() {
+		
+		accountInformation.click();
+		BaseClass.sleep(1000);
+		
+		try {
+			if(myAccountPagePwd.isDisplayed()==true) {
+			//	BaseClass.queryfile();
+				Properties props = BaseClass.prop;
+				try {
+					if(BaseClass.currentURL.contains("stg")) {
+						myAccountPagePwd.sendKeys(props.getProperty("password"));
+					}
+					else {
+						myAccountPagePwd.sendKeys(props.getProperty("prodpassword"));
+					}
+				} catch (Exception e) {
+					System.out.println("password is not correct");
+				}
+				
+				BaseClass.sleep(1000);
+				submitButton.click();
+				BaseClass.sleep(5000);
+				emailid=emailIdTxt.getAttribute("value");
+			}
+		} catch (Exception e) {
+		}
+		
+	}
+
+	
+	/**
+	 * This methid is used to get Redeem Point from Redeem Point page
+	 * 
+	 * @param passwrd
+	 * @return
+	 */
+	public String getRedeemPoints(){
+		System.out.println("Remaining Redeem Points Balance - "+redeemPointsBalance.getText());
+		return redeemPointsBalance.getText();
+	}
+	public void getRedeemAmount() {
+		int redeemAmt=Integer.parseInt(getRedeemPoints())/100;
+		System.out.println("Remaining Redeem Amt - "+redeemAmt);
+	}
+	
+	public String makeRedeem() throws NumberFormatException, SQLException {
+		clickOnRedeemPointsLink();
+		totalpoints=getTotalPoints();
+		try {
+			if(Integer.valueOf(totalpoints)==getTotalPointBalanceFrmDB()) {
+				System.out.println("Total Balance Points is - "+totalpoints);
+			}
+		} catch (NumberFormatException | SQLException e1) {
+			System.out.println("Total point balance from DB and UI is different. Please check");
+		}
+		
+		BaseClass.sleep(1000);
+		eGiftCard.click();
+		BaseClass.sleep(3000);
+		String giftCardText=null;
+
+		try {
+			if(!(totalpoints.equals("0")) && selectedFirstRewardOption.isDisplayed()==true) {
+				giftCardText=firstGiftCardText.getText();
+				selectedFirstRewardOption.click();
+				BaseClass.sleep(2000);
+				getAllRedeemAvailableCard();
+				BaseClass.sleep(2000);
+				JavascriptExecutor js = (JavascriptExecutor) driver;
+			    js.executeScript("window.scrollBy(0,400)", "");
+			    
+				BaseClass.selectByIndex(selectRewardBalance, 4);
+				BaseClass.sleep(1000);
+				submitBtns.click();
+				redeemStatusMsg=statusMsg.getText();
+				System.out.println(redeemStatusMsg);
+				BaseClass.sleep(8000);
+				
+				BaseClass.selectByIndex(selectRewardBalance, 1);
+				BaseClass.sleep(1000);
+				submitBtns.click();
+				redeemStatusMsg=statusMsg.getText();
+				System.out.println(redeemStatusMsg);
+				
+				BaseClass.sleep(8000);
+				if(totalPoint.isDisplayed()==true) {
+					String currentPoints=getTotalPoints();
+					System.out.println("The Previous total points is - "+totalpoints+" current total points is - "+currentPoints);
+				}
+			}else {
+				System.out.println("Total Points Balance is 0 or GiftCard is not visible so we are go going for further process");
+			}
+
+		} catch (Exception e) {
+			System.out.println("No Reward is available here");
+		}
+		
+		if(!(totalpoints.equals("0"))) {
+			redemptionRequestPoints=getRedemptionRequestPointFrmDB();
+			giftcardName=getGiftCardNameFrmDB();
+			redeemAmount=getRedeemAmountFromDB();
+			currencyCode=getCurrencyCodefrmDB();
+			
+				if(giftCardText.equalsIgnoreCase(giftcardName)) {
+					System.out.println("Redeem Successfully done");
+					System.out.println("Redeem Request Point - "+redemptionRequestPoints);
+					System.out.println("gift Card Name - "+giftcardName);
+					System.out.println("Redeem Amount - "+redeemAmount);
+					System.out.println("Currency Name - "+currencyCode);	
+				}
+			}
+			else {
+				System.out.println("Redeem not done successfully");
+			}
+		
+		try {
+			if(!(totalpoints.equals("0")) && verifyRedemptionRequest(emailid).equalsIgnoreCase("Cancel Successfully.")) {
+				System.out.println("Redeem done successfully");
+			}
+			return "Redeem done successfully";
+		} catch (Exception e) {
+			System.out.println("Redeem not done successfully");
+			return "Redeem not done successfully";
+		}
+		
+	}
+	
+	/**
+	 * This method is used to get total points balance from DB
+	 * @return
+	 * @throws SQLException
+	 */
+	public int getTotalPointBalanceFrmDB() throws SQLException {
+		
+		BaseClass.queryfile();
+		Properties props=BaseClass.prop;
+		
+		String totalPointsQuery=props.getProperty("totalPoints")+getUserID(emailid);
+		DatabaseIntegrations.executeQuery(totalPointsQuery, 1);
+		String totalPoints=DatabaseIntegrations.getColumnValue();
+		
+		String totalRedeemPointsQuery=props.getProperty("totalRedeemPoint")+getUserID(emailid);
+		DatabaseIntegrations.executeQuery(totalRedeemPointsQuery, 1);
+		String totalRedeemPoints=DatabaseIntegrations.getColumnValue();
+		
+		String redeemTotalPoints=null;
+		if(totalPoints==null) {
+			redeemTotalPoints="0";
+		}else {redeemTotalPoints=totalPoints;}
+		
+		String redeemPoints=null;
+		if(totalRedeemPoints==null) {
+			redeemPoints="0";
+		}else {redeemPoints=totalRedeemPoints;}
+		
+		int totalBalance=Integer.valueOf(redeemTotalPoints)-Integer.valueOf(redeemPoints);
+		
+		return totalBalance;
+	}
+	
+	/**
+	 * This method used to get UserId from DB 
+	 * @param email
+	 * @return
+	 */
+	public String getUserID(String email) {
+		
+		BaseClass.queryfile();
+		Properties props=BaseClass.prop;
+		String query=props.getProperty("users")+"'"+email+"'";
+		
+		try {
+			DatabaseIntegrations.executeQuery(query, 1);
+		} catch (SQLException e) {
+			System.out.println("Query is not found");
+		}
+		
+		return DatabaseIntegrations.getColumnValue();
+	}
+
+	/** This method is used for grtting total balance point from redeem ui
+	 * @return
+	 */
+	public String getTotalPoints() {
+		return totalPoint.getText();
+	}
+	
+	
+	/**
+	 * This method is used to get redemption request points from DB table 
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getRedemptionRequestPointFrmDB() throws SQLException {
+		DatabaseIntegrations.executeQuery(userRedemptionDetailsQuery(), 2);
+		return DatabaseIntegrations.getColumnValue();
+	}
+	
+	/**
+	 * This method used to get gift card name from DB table
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getGiftCardNameFrmDB() throws SQLException {
+		DatabaseIntegrations.executeQuery(userRedemptionDetailsQuery(), 4);
+		return DatabaseIntegrations.getColumnValue();
+	}
+	
+	/**
+	 * This methd is used to get Redeem amount from DB table
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getRedeemAmountFromDB() throws SQLException {
+		DatabaseIntegrations.executeQuery(userRedemptionDetailsQuery(), 14);
+		return DatabaseIntegrations.getColumnValue();
+	}
+	
+	/**
+	 * This method is used to get currency code from DB table
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getCurrencyCodefrmDB() throws SQLException {
+		DatabaseIntegrations.executeQuery(userRedemptionDetailsQuery(), 16);
+		return DatabaseIntegrations.getColumnValue();
+	}
+	
+	/**
+	 * This method used to load query property file 
+	 * @return
+	 */
+	public String userRedemptionDetailsQuery() {
+		BaseClass.queryfile();
+		Properties props=BaseClass.prop;
+		return props.getProperty("userRedemptionDetails")+getUserID(emailid)+queries;
+	}
+	
+	
+	/**
+	 * This method is used to get all reward text from UI of User side
+	 */
+	public void getAllRedeemAvailableCard() {
+		
+		int count=1;
+		Iterator<WebElement> itr = availableAllCard.iterator();
+		while(itr.hasNext()) {
+			WebElement cards=itr.next();
+			String cardName=cards.getText();
+			System.out.println("Card number and Card name - "+count+" - "+cardName);
+			count++;
+		}
+	}
+	
+	public String myPonts() {
+		clickOnRedeemPointsLink();
+		BaseClass.sleep(2000);
+		moreInfoBtn.click();
+		BaseClass.sleep(2000);
+		try {
+			Iterator<WebElement> itr = timeBtn.iterator();
+			while (itr.hasNext()) {
+				BaseClass.sleep(2000);
+				WebElement btn=itr.next();
+				btn.click();
+				String btnText=btn.getText();
+				if(surveyPointstext.getText().equalsIgnoreCase("Survey Points")) {
+					System.out.println(btnText+" tab is working");
+				}	
+			}
+			return "My Points page working";
+		} catch (Exception e) {
+			return "My Point page not working";
+		}
+	}
+	
+	/**
+	 * This is used to open admin side in new tab and filter email id in redemption request page in redemption tab
+	 * and matched with DB and cancel the request from redemption request UI
+	 * @param email
+	 * @return
+	 */
+	public String verifyRedemptionRequest(String email) {
+	
+		((JavascriptExecutor)driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		
+		BaseClass.implicitilyWait(driver, 20);
+		BaseClass.loadTestDataFile();
+		Properties props = BaseClass.prop;
+		try {
+			if(BaseClass.currentURL.contains("stg")) {
+				driver.navigate().to(props.getProperty("adminStgUrl"));
+				usrnm.sendKeys(props.getProperty("adminUsername"));
+				pass.sendKeys(props.getProperty("adminPassword"));
+			}
+			else {
+				driver.navigate().to(props.getProperty("adminProdUrl"));
+				usrnm.sendKeys(props.getProperty("adminProdUsername"));
+				pass.sendKeys(props.getProperty("adminProdPassword"));
+			}
+		} catch (Exception e) {
+			System.out.println("URL or credential is not correct. Please check");
+		}
+		
+		BaseClass.sleep(4000);
+		login.click();
+		
+		BaseClass.sleep(2000);
+		
+		JavascriptExecutor executors=(JavascriptExecutor) driver;
+		executors.executeScript("arguments[0].click();", redemptionBtn);
+		BaseClass.sleep(3000);
+		filterBtn.click();
+		BaseClass.sleep(1000);
+		searchByEmailField.clear();
+		searchByEmailField.sendKeys(email);
+		BaseClass.sleep(1000);
+		searchBtn.click();
+		
+		BaseClass.sleep(1000);
+		try {
+			if(emailFromSearchTable.isDisplayed()==true) {
+				BaseClass.sleep(2000);
+				if(email.equalsIgnoreCase(emailFromSearchTable.getText())) {
+					System.out.println("Redemption details verify successfully");
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Redemption details is not available. Please check it - "+e.getMessage());
+		}
+		
+		BaseClass.sleep(1000);
+		
+		if(redemptionPoints.getText().equalsIgnoreCase(redemptionRequestPoints)
+				&& redeemAmountFromSearchTable.getText().equalsIgnoreCase(String.valueOf(redeemAmount).replaceFirst("\\.0+$", ""))
+				&& conCurrencyCode.getText().equalsIgnoreCase(currencyCode)
+				&& GiftOptionFromSearchTable.getText().equalsIgnoreCase(giftcardName)) {
+			System.out.println("Verify columns name of Reemption request page");
+		}else {System.out.println("columns name of Reemption request page not verify");}
+
+		BaseClass.sleep(2000);
+
+		//handle multiple or single redemption on redemption page in Admin
+		int cancelBtnCount=cancelRedemption.size();
+		for(int i=cancelBtnCount; i>=1; i--) {
+					
+			BaseClass.sleep(3000);
+			WebElement ele = cancelRedemption.get(i-1);
+			ele.click();
+			BaseClass.sleep(2000);
+			cancelText.sendKeys("testing");
+			BaseClass.sleep(2000);
+			confirmBtn.click();
+		}		
+		BaseClass.sleep(600);
+		String cancelMessage=cancelMsg.getText();
+		System.out.println(cancelMessage);
+		driver.close();
+		
+		BaseClass.sleep(3000);
+		ArrayList<String> tab = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tab.get(0));
+		driver.navigate().refresh();
+		BaseClass.sleep(4000);
+		try {
+			if(passwordFields.isDisplayed()==true) {
+				try {
+					if(BaseClass.currentURL.contains("stg")) {
+						passwordFields.sendKeys(props.getProperty("password"));
+					}
+					else {
+						passwordFields.sendKeys(props.getProperty("prodpassword"));
+					}
+				} catch (Exception e) {
+					System.out.println("password is not correct");
+				}
+				BaseClass.sleep(2000);
+				submitBtn.click();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		
+		if(totalpoints.equalsIgnoreCase(getTotalPoints())) {
+			System.out.println("Point balance before cancel redemption - "+totalpoints+" and Point balance after cancel redemtion - "+getTotalPoints());
+		}else {System.out.println("Point is not same");}
+		
+		if(cancelMessage.equalsIgnoreCase("Cancel Successfully.")) {
+			return cancelMessage;
+		}else {
+			return "Cancel not done";
+		}	
+	}
+	
+	
+}

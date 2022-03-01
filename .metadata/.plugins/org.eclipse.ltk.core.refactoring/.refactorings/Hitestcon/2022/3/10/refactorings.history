@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;esconsumer_usersite.baseclass&apos; to &apos;test.baseclass&apos;&#x0D;&#x0A;- Original project: &apos;Hitestcon&apos;&#x0D;&#x0A;- Original element: &apos;Hitestcon/ESConsumer_UserSite/main/esconsumer_usersite.baseclass&apos;&#x0D;&#x0A;- Renamed element: &apos;Hitestcon/ESConsumer_UserSite/main/test.baseclass&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;esconsumer_usersite.baseclass&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/ESConsumer_UserSite\/main&lt;esconsumer_usersite.baseclass" name="test.baseclass" qualified="false" references="true" stamp="1646120721913" textual="false" version="1.0"/>
+</session>

@@ -1,0 +1,631 @@
+/**
+ * 
+ */
+package esconsumer_usersite.modules;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import esconsumer_usersite.baseclass.BaseClass;
+
+
+/**
+ * This class is used to verify username, first name, last name , address etc from DB
+ * .
+ * @author Sunil Kashyap
+ *
+ * 29 Sep, 2020
+ */
+public class MyAccount {
+	
+	@FindBy(xpath = "//a[contains(text(),'MI cuenta')]") WebElement myAccount;
+	@FindBy(id = "Password") WebElement myAccountPagePwd;
+	@FindBy(id = "btnPasswordValidate") WebElement submitBtn;
+	@FindBy(id = "Username") WebElement userNm;
+	@FindBy(id = "Email") WebElement emails;
+	@FindBy(id = "FirstName") WebElement firstNm;
+	@FindBy(id = "LastName") WebElement lastNm;
+	@FindBy(id = "btnSave") WebElement submit;
+	
+	@FindBy(xpath = "//a[contains(text(),'Mi dirección')]") WebElement myAddress;
+	@FindBy(xpath = "//div[@id='divMyContactInfoAddress'][1]/descendant::li[2]/span") WebElement addre1;
+	@FindBy(xpath = "//div[@id='divMyContactInfoAddress'][1]/descendant::ul[1]/li/span") List<WebElement> address;
+	@FindBy(xpath = "//div[@id='divMyContactInfoAddress']/descendant::h3[1]") WebElement addrssName;
+	
+	@FindBy(xpath = "//div[@id='divMyContactInfoAddress']/descendant::i[1]") WebElement addrssEditIcon;
+	@FindBy(id = "Addressline1") WebElement addrssTextField;
+	@FindBy(xpath = "//button[text()='Actualizar']") WebElement updateBtn;
+	
+	@FindBy(xpath = "//a[text()='Cambiar la Contraseña']") WebElement changePwdtab;
+	@FindBy(id = "OldPassword") WebElement oldPwd;
+	@FindBy(id = "NewPassword") WebElement newPwd;
+	@FindBy(id = "ConfirmPassword") WebElement confirmPwd;
+	@FindBy(xpath = "//input[@id='changePassWord']") WebElement changePwdBtn;
+	
+	@FindBy(xpath = "//a[text()=' Acceso']") WebElement logIn;
+	@FindBy(xpath = "(//a[text()='Cerrar sesión'])[1]") WebElement logOut;
+	@FindBy(id = "txtUserName") WebElement username;
+	@FindBy(id = "Password") WebElement passwrd;
+	@FindBy(id = "LoginBtn") WebElement submitBatton;
+	@FindBy(xpath = "//h1[text()='Estudios']") WebElement surveyText;
+	
+	@FindBy(id = "communication_preference_tab") WebElement communicationPrefereneceTab;
+	@FindBy(id = "EveryDayLimitEMAIL") WebElement inviteEmailPerDay;
+	@FindBy(xpath = "//div[@id='communication_preference_div']/descendant::a[1]") WebElement editIconsfrst;
+	@FindBy(id = "EveryDayLimitEMAIL") WebElement emailcount;
+	@FindBy(xpath = "//a[@id='btn_PreferenceEMAIL']/i") WebElement firstGreenButton;
+	
+	@FindBy(id = "btnMyPhoneContact") WebElement addContactBtn;
+	@FindBy(id = "PhoneContactId") WebElement selectContactType;
+	@FindBy(xpath = "(//input[@id='MobileNumber'])[1]") WebElement enterContactNo;
+	@FindBy(xpath = "//button[text()='Guardar']") WebElement saveBtn;
+	@FindBy(xpath = "//div[@id='divMyContactInfo']/descendant::label") List<WebElement> contactTypeText;
+	
+	@FindBy(xpath = "//button[contains(text(),'Mostrar/Exportar mis datos')]/following-sibling::button") WebElement toggleBtn;
+	@FindBy(id = "downloadLink") WebElement showExportProfileData;
+	@FindBy(id = "btnProcessing") WebElement displayxportSurveyData;
+	@FindBy(id = "btnDelete") WebElement removeMeBtn;
+	@FindBy(id = "txtUserName") WebElement usernm;
+	@FindBy(id = "Password") WebElement password;
+	@FindBy(id = "LoginBtn") WebElement submitb;
+	@FindBy(xpath = "//div[contains(text(),'¡Uy! Parece ser un problema técnico')]") WebElement msg;
+	
+	// Admin xpath
+	@FindBy(id = "UserName") WebElement usrnm;
+	@FindBy(id = "Password") WebElement pass;
+	@FindBy(id = "LoginBtn") WebElement login;
+	@FindBy(xpath = "//span[text()='Welcome']") WebElement welcome;
+	@FindBy(xpath = "//a[contains(text(),'Manage Panelists')]") WebElement managePanelist;
+	@FindBy(id = "txtKeywords") WebElement keywordField;
+	@FindBy(id = "fieldList") WebElement searchField;
+	@FindBy(id = "btnSearch") WebElement searchBtn;
+	@FindBy(xpath = "//table[@id='example']/tbody/descendant::a[1]") WebElement panelistLoginID;
+	@FindBy(xpath = "//table[@id='example']/tbody/descendant::td[1]/input") WebElement checkBox;
+	@FindBy(xpath = "//table[@id='example']/tbody/descendant::td[10]") WebElement activeTxt;
+	@FindBy(id = "btnActive") WebElement activeBtn;
+	@FindBy(id = "textAreacomment") WebElement text;
+	@FindBy(name = "btnAddComment") WebElement addCommentBtn;
+	
+	@FindBy(xpath = "//img[@id='img4']") WebElement img;
+	@FindBy(xpath = "//div[@id='toast-container']/div/div") WebElement toastMsg;
+	
+	
+	WebDriver driver;
+	String email=null;
+	String userID=null;
+	String addrName="and AddressName=";
+	String addrType1="Home/Office Address";
+	String addrType2="Payment Address";
+	String addrType=null;
+	
+	public MyAccount(WebDriver driver) {
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	/**
+	 *This method is used for click on My Account and get member Id from account page 
+	 */
+	public void clickOnMyAccountLink() {
+		
+		myAccount.click();
+		BaseClass.sleep(1000);
+		
+		try {
+			if(myAccountPagePwd.isDisplayed()==true) {
+				BaseClass.loadTestDataFile();
+				Properties props = BaseClass.prop;
+				try {
+					if(BaseClass.currentURL.contains("stg")) {
+						myAccountPagePwd.sendKeys(props.getProperty("password"));
+					}
+					else {
+						myAccountPagePwd.sendKeys(props.getProperty("prodpassword"));
+					}
+				} catch (Exception e) {
+					System.out.println("password is not correct");
+				}
+				
+				BaseClass.sleep(1000);
+				submitBtn.click();
+			}
+		} catch (Exception e) {
+		}
+		
+	}
+
+	/**
+	 * Getting username from my account page
+	 * @return
+	 */
+	public String getUserNm() {
+		clickOnMyAccountLink();
+		email=userNm.getAttribute("value");
+		System.out.println("User Email id - "+email);
+		return email;
+	}
+	
+	/**
+	 * Getting first name from my account page
+	 * @return
+	 */
+	public String getFirstNm() {
+	//	clickOnMyAccountLink();
+		System.out.println("User First Name - "+firstNm.getAttribute("value"));
+		return firstNm.getAttribute("value");
+	}
+	
+	/**
+	 * Getting last name from my account page
+	 * @return
+	 */
+	public String getLastNM() {
+	//	clickOnMyAccountLink();
+		System.out.println("User Last Name - "+lastNm.getAttribute("value"));
+		return lastNm.getAttribute("value");
+	}
+	
+	public String updateProfilePicture() {
+	//	clickOnMyAccountLink();
+		BaseClass.sleep(2000);
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", img);
+		new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOf(toastMsg));
+		String message=toastMsg.getText();
+		System.out.println(message);
+		return message;
+	}
+	
+	/**
+	 * This method is used to update Email ID
+	 * @return
+	 */
+	public String updateEmailID() {
+		
+		clickOnMyAccountLink();
+		String updateEmail=BaseClass.generateRandomChars()+"@mailinator.com";
+		getEmail();
+		emails.clear();
+		emails.sendKeys(updateEmail);
+		submit.click();
+		BaseClass.sleep(2000);
+		System.out.println("Email Id after update - "+emails.getAttribute("value"));
+		System.out.println("My Account tab related change has been done");
+		return emails.getAttribute("value");
+	}
+	
+	/**
+	 * This method is used to print email id before update email id
+	 */
+	public void getEmail() {
+		System.out.println("Email Id before update - "+emails.getAttribute("value"));
+	}
+	
+	/**
+	 * This method is used to update Address 
+	 * @return
+	 */
+	public String updateAddress1() {
+		
+		BaseClass.sleep(1000);
+		myAddress.click();
+		BaseClass.sleep(1000);
+		addrType=addrssName.getText();
+		addrssEditIcon.click();
+		BaseClass.sleep(2000);
+		addrssTextField.clear();
+		String newAddrss=BaseClass.generateRandomChars();
+		addrssTextField.sendKeys(newAddrss);
+		BaseClass.sleep(1000);
+		updateBtn.click();
+		System.out.println("Address has been updated");
+		System.out.println("My Address tab changes has been done");
+		return newAddrss;
+	} 
+	
+	/**
+	 * This method is used to change password 
+	 * @return
+	 * @throws IOException
+	 */
+	public boolean changePassword() throws IOException {
+		
+		changePwdtab.click();
+		BaseClass.sleep(1000);
+		
+		oldPwd.clear();
+		BaseClass.sleep(1000);
+		BaseClass.loadTestDataFile();
+		Properties props = BaseClass.prop;
+		
+		String oldpwd=null;
+		try {
+			if(BaseClass.currentURL.contains("stg")) {
+				oldpwd=props.getProperty("password");
+			}
+			else {
+				oldpwd=props.getProperty("prodpassword");
+			}
+		} catch (Exception e) {
+			System.out.println("Password is not correct");
+		}
+		
+		oldPwd.sendKeys(oldpwd);
+		BaseClass.sleep(1000);
+		newPwd.sendKeys(BaseClass.readExcelData("NewPassword", 1, 0));
+		confirmPwd.sendKeys(BaseClass.readExcelData("NewPassword", 1, 0));
+		BaseClass.sleep(1000);
+		changePwdBtn.click();
+		BaseClass.sleep(10000);
+		logOut.click();
+		BaseClass.sleep(2000);
+		logIn.click();
+		BaseClass.sleep(2000);
+		
+		try {
+			if(BaseClass.currentURL.contains("stg")) {
+				username.sendKeys(props.getProperty("username"));
+			}
+			else {
+				username.sendKeys(props.getProperty("produsername"));
+			}
+		} catch (Exception e) {
+			System.out.println("Password is not correct");
+		}
+		BaseClass.sleep(1000);
+		passwrd.sendKeys(BaseClass.readExcelData("NewPassword", 1, 0));
+		submitBatton.click();
+		BaseClass.sleep(3000);
+		if(surveyText.getText().equalsIgnoreCase("Estudios")) {
+			myAccount.click();
+			BaseClass.sleep(1000);
+			passwrd.sendKeys(BaseClass.readExcelData("NewPassword", 1, 0));
+			submitBtn.click();
+			BaseClass.sleep(1000);
+			changePwdtab.click();
+			BaseClass.sleep(1000);
+			oldPwd.sendKeys(BaseClass.readExcelData("NewPassword", 1, 0));
+			try {
+				if(BaseClass.currentURL.contains("stg")) {
+					newPwd.sendKeys(props.getProperty("password"));
+					confirmPwd.sendKeys(props.getProperty("password"));
+				}
+				else {
+					newPwd.sendKeys(props.getProperty("prodpassword"));
+					confirmPwd.sendKeys(props.getProperty("prodpassword"));
+				}
+			} catch (Exception e) {
+				System.out.println("Password is not correct");
+			}
+			changePwdBtn.click();
+			System.out.println("Password Change successfully");
+			System.out.println("Change Password tab related change has been done");
+			return true;
+		}
+		else {
+			System.out.println("Password not Changed");
+			return false;
+		}
+	}
+
+	
+	/**
+	 * this method is used to get email count number which is perform per day
+	 * @return
+	 */
+	public String getEmailCountPerDay() {
+		
+		communicationPrefereneceTab.click();
+		BaseClass.sleep(2000);
+		editIconsfrst.click();
+		BaseClass.sleep(2000);
+		BaseClass.selectByIndex(emailcount, 3);
+		BaseClass.sleep(2000);
+		firstGreenButton.click();
+		BaseClass.sleep(2000);
+		String emailcount=BaseClass.getFirstSelectOptions(inviteEmailPerDay);
+		System.out.println("Email count per day - "+emailcount);
+		if(emailcount.equals("5 or more")) {
+			return "1000";
+		}else {
+			return BaseClass.getFirstSelectOptions(inviteEmailPerDay);
+		}
+	}
+	
+
+	/**
+	 * this method is used to Add new Address 
+	 * @return
+	 */
+	public boolean addNewContact() {
+		
+		communicationPrefereneceTab.click();
+		BaseClass.sleep(1000);
+		addContactBtn.click();
+		BaseClass.sleep(1000);
+		BaseClass.selectByIndex(selectContactType, 2);
+		BaseClass.sleep(1000);
+		String contactTypeTxt=BaseClass.getFirstSelectOptions(selectContactType);
+		try {
+			enterContactNo.clear();
+			enterContactNo.sendKeys(BaseClass.readExcelData("Join", 1, 7));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		BaseClass.sleep(1000);
+		saveBtn.click();
+		BaseClass.sleep(3000);
+		Iterator<WebElement> itr = contactTypeText.iterator();
+		while (itr.hasNext()) {
+			WebElement contct = itr.next();
+			String contactType=contct.getText();
+			if(contactType.equalsIgnoreCase(contactTypeTxt)) {
+				System.out.println("Contact Add successfully");
+				System.out.println("Communication Preference tab related change has been done");
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	
+	public void downloadData() {
+		
+		toggleBtn.click();
+		BaseClass.sleep(1000);
+		showExportProfileData.click();
+		BaseClass.sleep(3000);
+
+		toggleBtn.click();
+		BaseClass.sleep(1000);
+		displayxportSurveyData.click();
+		BaseClass.sleep(1000);
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		BaseClass.sleep(1000);
+		driver.close();
+		driver.switchTo().window(tabs.get(0));
+		BaseClass.sleep(2000);
+	}
+	
+	public String unsubscribeUser() {
+		clickOnMyAccountLink();
+		String usrname=userNm.getAttribute("value");
+		downloadData();
+		removeMeBtn.click();
+		BaseClass.sleep(3000);
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		BaseClass.sleep(1000);
+		driver.close();
+		driver.switchTo().window(tabs.get(0));
+		BaseClass.sleep(3000);
+		driver.navigate().refresh();
+		BaseClass.sleep(1000);
+		
+		BaseClass.loadTestDataFile();
+		Properties props = BaseClass.prop;
+		try {
+			if(BaseClass.currentURL.contains("stg")) {
+				// Enter username and password
+				usernm.sendKeys(props.getProperty("username"));
+				password.sendKeys(props.getProperty("password"));
+			}
+			else {
+				// Enter username and password
+				usernm.sendKeys(props.getProperty("produsername"));
+				password.sendKeys(props.getProperty("prodpassword"));
+			}
+		} catch (Exception e) {
+			System.out.println("Admin Credential is not correct");
+		}
+		BaseClass.implicitilyWait(driver, 10);
+		submitb.click();
+		BaseClass.sleep(2000);
+		
+		String textMsg=msg.getText();
+		if(textMsg.equals("¡Uy! Parece ser un problema técnico. Por favor, póngase en contacto con nuestro servicio de Atención al Cliente para obtener ayuda.")) {
+			System.out.println("User unsubscribe successfully");
+			activeUser(usrname);
+			driver.navigate().refresh();
+			usernm.clear();
+			usernm.sendKeys(usrname);
+			if(BaseClass.currentURL.contains("stg")) {
+				password.clear();
+				password.sendKeys(props.getProperty("password"));
+			}else {
+				password.clear();
+				password.sendKeys(props.getProperty("prodpassword"));
+			}
+			BaseClass.sleep(1000);
+			submitb.click();
+			clickOnMyAccountLink();
+			BaseClass.sleep(1000);
+			return "User unsubscribe successfully";
+		}else {
+			System.out.println("User not unsubscrube");
+			return "User not unsubscribe";
+		}
+		
+	}
+	
+	public void activeUser(String username) {
+		
+		((JavascriptExecutor)driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		
+		BaseClass.loadTestDataFile();	
+		Properties props = BaseClass.prop;
+		try {
+			if(BaseClass.currentURL.contains("stg")) {
+				driver.navigate().to(props.getProperty("adminStgUrl"));
+				BaseClass.sleep(1000);
+				// Enter username and password
+				usrnm.sendKeys(props.getProperty("adminUsername"));
+				pass.sendKeys(props.getProperty("adminPassword"));
+			}else {
+				driver.navigate().to(props.getProperty("adminProdUrl"));
+				BaseClass.sleep(1000);
+				// Enter username and password
+				usrnm.sendKeys(props.getProperty("adminProdUsername"));
+				pass.sendKeys(props.getProperty("adminProdPassword"));
+			}
+		} catch (Exception e) {
+			System.out.println("Admin Credential is not correct");
+		}
+		
+		BaseClass.implicitilyWait(driver, 10);
+		login.click();
+		BaseClass.sleep(2000);
+		
+		welcome.click();
+		BaseClass.sleep(1000);
+		managePanelist.click();
+		BaseClass.sleep(1000);
+		
+		try {
+			keywordField.sendKeys(username);
+			BaseClass.sleep(1000);
+			searchBtn.click();
+		} catch (Exception e) {
+			System.out.println("Email Id not found");
+		}
+		BaseClass.sleep(30000);	
+		try {
+			
+			String panelist=panelistLoginID.getText();
+			if(panelist.equals(username)) {
+				BaseClass.sleep(2000);
+//				checkBox.click();
+				JavascriptExecutor executor=(JavascriptExecutor) driver;
+				executor.executeScript("arguments[0].click();", checkBox);
+				BaseClass.sleep(1000);
+				activeBtn.click();
+				BaseClass.sleep(1000);
+				text.sendKeys("Testing");
+				BaseClass.sleep(1000);
+				addCommentBtn.click();
+				BaseClass.sleep(15000);
+				driver.close();
+				driver.switchTo().window(tabs.get(0));
+			}
+		} catch (Exception e) {		
+			System.out.println("Panelist Login Id is not available");
+		}
+	}
+
+	
+	
+	/**
+	 * Getting email count per day from DB
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getEmailCountPerDayFrmDB() throws SQLException {
+		
+		BaseClass.queryfile();
+		Properties props = BaseClass.prop;
+		String query=props.getProperty("user")+"'"+email+"'";
+		
+		DatabaseIntegrations.executeQuery(query,1);
+		String userID=DatabaseIntegrations.getColumnValue();
+
+		String emailcountperday=props.getProperty("userProfile")+userID;
+		DatabaseIntegrations.executeQuery(emailcountperday, 19);
+		return DatabaseIntegrations.getColumnValue();
+	}
+	
+	
+	/**
+	 * Getting first name from database
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getDatafromDB(int no) throws SQLException {
+		
+		BaseClass.queryfile();
+		Properties props = BaseClass.prop;
+		String query=props.getProperty("user")+"'"+email+"'";
+		
+		DatabaseIntegrations.executeQuery(query,1);
+		userID=DatabaseIntegrations.getColumnValue();
+		
+		DatabaseIntegrations.executeQuery(query,no);
+		System.out.println("Data from DB - "+DatabaseIntegrations.getColumnValue());
+		return DatabaseIntegrations.getColumnValue();
+		
+	}
+	
+	public String getZipcodefromDB() throws SQLException {
+		BaseClass.queryfile();
+		Properties props = BaseClass.prop;
+		String query=props.getProperty("userProfile")+userID;
+		DatabaseIntegrations.executeQuery(query,6);
+		return DatabaseIntegrations.getColumnValue();
+	}
+	/**
+	 * Getting address1 from my account page of my account page
+	 * @return
+	 */
+	public String address1() {
+	//	clickOnMyAccountLink();
+		BaseClass.sleep(1000);
+		myAddress.click();
+		BaseClass.sleep(1000);
+		addrType=addrssName.getText();
+		try {
+			if(addre1.isDisplayed()==true) {
+				BaseClass.sleep(2000);
+				System.out.println("---Home/Office Address---");
+				Iterator<WebElement> itr = address.iterator();
+				while(itr.hasNext()) {
+					WebElement addrValue=itr.next();
+					System.out.println(addrValue.getText());
+				}
+			}
+			return addre1.getText();		
+		} catch (Exception e) {
+			System.out.println("Address 1 is not displaying");
+			return "Address 1 is not displaying";
+		}	
+	}
+	
+	/**
+	 * Getting address1 from database
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getAddress1fromDB() throws SQLException {
+		
+		BaseClass.queryfile();
+		Properties props = BaseClass.prop;
+		String query=props.getProperty("panelistAddressInfo")+userID+addrName+"'"+addrType+"'";
+		DatabaseIntegrations.executeQuery(query,7);
+		return DatabaseIntegrations.getColumnValue();	
+	}
+	
+	public String getUpdatedAddressFromDB() throws SQLException {
+		
+		BaseClass.queryfile();
+		Properties props = BaseClass.prop;
+		String query=props.getProperty("panelistAddressInfo")+userID+addrName+"'"+addrType+"'";
+		DatabaseIntegrations.executeQuery(query,7);
+		return DatabaseIntegrations.getColumnValue();
+		
+	}
+}

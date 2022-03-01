@@ -1,0 +1,65 @@
+/**
+ * 
+ */
+package esconsumer_usersite.modulestestcases;
+
+import java.io.IOException;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import esconsumer_usersite.baseclass.BaseClass;
+import esconsumer_usersite.extendReport.MailSender;
+import esconsumer_usersite.modules.ForgotPassword;
+
+/**
+ * @author Sunil Kashyap
+ *
+ * 26 Nov, 2020
+ */
+public class ForgotPasswordTest extends BaseClass{
+	
+	ForgotPassword forgotPassword;
+	
+	
+	/**
+	 * This method (test case) is used for refer friends
+	 * 
+	 * @param browser
+	 * @param evmnt
+	 */
+	@Parameters({"browser","evmnt"})
+	@BeforeMethod
+	public void launchedURL(String browser, String evmnt) {
+		browser(browser);
+		launchURL(evmnt);
+		
+	}
+
+	/**
+	 *  This test case is used for forgot password
+	 * @throws IOException 
+	 */
+	@Test
+	public void forgotPasswordTest() throws IOException {
+		
+		forgotPassword=new ForgotPassword(driver);
+		Assert.assertEquals(forgotPassword.forgotPasswordEmail(readExcelData("ForgotPassword", 1, 0)), forgotPassword.msg);
+	}
+	
+	/**
+	 *this method is used for close browser 
+	 */
+	@AfterMethod
+	public void closeBroswer() {
+		driver.close();
+	}
+	
+}
+

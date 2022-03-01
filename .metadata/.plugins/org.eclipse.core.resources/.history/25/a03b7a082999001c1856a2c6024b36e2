@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="ESConsumer Suite">
+	
+  <listeners>
+  	<listener class-name="esconsumer_usersite.extendReport.ExtentReporter"/>
+  </listeners>
+  <test thread-count="5" name="ESConsumer Test">
+  <parameter name="browser" value="chrome"></parameter>
+  <parameter name="evmnt" value="stg"></parameter>
+    <classes>
+
+<!--       <class name="esconsumer_usersite.modulestestcases.JoinTest"/>  -->
+  	  <class name="esconsumer_usersite.modulestestcases.ProfileSurveysTest"/>
+  	  <class name="esconsumer_usersite.modulestestcases.MyAccountTest"/>
+  	  <class name="esconsumer_usersite.modulestestcases.RedeemPointsTest"/>
+  	  <class name="esconsumer_usersite.modulestestcases.ReferFriendsTest"/>  
+      <class name="esconsumer_usersite.modulestestcases.ForgotPasswordTest"/>  
+      <class name="esconsumer_usersite.modulestestcases.ContactTest"/> 
+      <class name="esconsumer_usersite.modulestestcases.ConditionsTest"/> 
+       
+    
+      <!-- <class name="esconsumer_usersite.modulestestcases.ESConsumerTestCase"/> -->
+         
+    </classes>
+  </test> <!-- ESConsumer Test -->
+</suite> <!-- ESConsumer Suite -->

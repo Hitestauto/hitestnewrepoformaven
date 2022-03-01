@@ -1,0 +1,88 @@
+/**
+ * 
+ */
+package esconsumer_usersite.modulestestcases;
+
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import esconsumer_usersite.baseclass.BaseClass;
+import esconsumer_usersite.extendReport.MailSender;
+import esconsumer_usersite.modules.Login;
+import esconsumer_usersite.modules.MyAccount;
+
+
+/**
+ * @author Sunil Kashyap
+ *
+ * 29 Sep, 2020
+ */
+public class MyAccountTest extends Login {
+	
+	MyAccount myAccount;
+	
+	/**
+	 * This test case is used for launching browser, url and login 
+	 * 
+	 * @param browser
+	 * @param evmnt
+	 */
+	@Parameters({"browser","evmnt"})
+	@BeforeMethod
+	public void initialization(String browser, String evmnt) {
+		browser(browser);
+		launchURL(evmnt);
+		login();
+	}
+	
+	/**
+	 * This test case used to compare username, firstname and lastname from UI and DB
+	 * 
+	 * @throws SQLException
+	 * @throws IOException 
+	 */
+	@Test(priority = 1 )
+	public void getTexttestcase() throws SQLException, IOException {
+		myAccount=new MyAccount(driver);
+		Assert.assertEquals(myAccount.getUserNm(), myAccount.getDatafromDB(3),"User Name is not matched");
+		BaseClass.sleep(1000);
+		Assert.assertEquals(myAccount.getFirstNm(), myAccount.getDatafromDB(4),"First Name is not matched");
+		BaseClass.sleep(1000);
+		Assert.assertEquals(myAccount.getLastNM(), myAccount.getDatafromDB(5),"Last Name is not matched");
+		BaseClass.sleep(1000);
+		Assert.assertEquals(myAccount.updateProfilePicture(), "Foto de perfil actualizada");
+		BaseClass.sleep(1000);
+		Assert.assertEquals(myAccount.updateEmailID(), myAccount.getDatafromDB(6),"Email ID is not updated");
+		BaseClass.sleep(1000);
+		Assert.assertEquals(myAccount.unsubscribeUser(), "User unsubscribe successfully");
+		BaseClass.sleep(1000);
+		Assert.assertEquals(myAccount.address1(), myAccount.getAddress1fromDB(),"Address is not matched");
+		BaseClass.sleep(1000);
+		Assert.assertEquals(myAccount.updateAddress1(), myAccount.getUpdatedAddressFromDB(),"Updated Address is not matched");
+		BaseClass.sleep(1000);
+		Assert.assertTrue(myAccount.changePassword());
+		BaseClass.sleep(1000);
+		Assert.assertEquals(myAccount.getEmailCountPerDay(), myAccount.getEmailCountPerDayFrmDB(),"Email count is not matched");
+		BaseClass.sleep(1000);
+		Assert.assertTrue(myAccount.addNewContact());
+	}
+
+	/**
+	 * This test case is used to cloase browser
+	 */
+	@AfterMethod
+	public void closeBrowser() {
+		
+		driver.close();
+	}
+}
+

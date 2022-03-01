@@ -1,0 +1,120 @@
+/**
+ * 
+ */
+package esconsumer_usersite.modules;
+
+import java.util.ArrayList;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import esconsumer_usersite.baseclass.BaseClass;
+
+/**
+ * @author Sunil Kashyap
+ *
+ * 15 Oct, 2020
+ */
+public class Conditions {
+	
+	@FindBy(xpath = "//a[contains(text(),'Condiciones de Uso')]") WebElement termAndConditions;
+	@FindBy(xpath = "//body[@id='home']/div/div[2]/descendant::strong") WebElement termAndConText;
+	
+	@FindBy(xpath = "//a[contains(text(),'Política de Privacidad')]") WebElement privacyPolicy;
+	@FindBy(xpath = "//body[@id='home']/descendant::h3") WebElement privacyPolicyText;
+	
+	@FindBy(xpath = "//a[contains(text(),'Preguntas Frecuentes')]") WebElement faq;
+	@FindBy(xpath = "//body[@id='home']/descendant::h2") WebElement text;
+	
+	@FindBy(xpath = "//a[contains(text(),'Schlesinger Group')]") WebElement schlesingerGroupIcon;
+	
+	
+	WebDriver driver;
+	public Conditions(WebDriver driver) {
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+
+	/**
+	 * This method is used to verify Term and Conditions page
+	 * @return
+	 */
+	public String termAndConditions() {
+		
+		termAndConditions.click();
+		String termAndConTxt=termAndConText.getText();
+		
+		if(termAndConTxt.equalsIgnoreCase("Lo más importante respecto a nuestras condiciones de participación es:")) {
+			System.out.println("Term and Conditions Page is working");
+			return termAndConTxt;
+		}else {
+			System.out.println("Term and Conditions Page is not working");
+			return termAndConTxt;
+		}
+	}
+	
+	/**
+	 * This method is used to verify Privacy Policy page
+	 * @return
+	 */
+	public String privacyPolicyPage() {
+		privacyPolicy.click();
+		String termAndConditionsTxt=privacyPolicyText.getText();
+		
+		if(termAndConditionsTxt.equals("Política de Privacidad")) {
+			System.out.println("Privacy Policy Page is working");
+			return termAndConditionsTxt;
+		}else {
+			System.out.println("Privacy Policy Page is not working");
+			return termAndConditionsTxt;
+		}
+	}
+	
+	
+	/**
+	 * This method is used to verify FAQ page
+	 * @return
+	 */
+	public String faqPage() {
+		
+		faq.click();
+		BaseClass.sleep(1000);
+		String faqtext=text.getText();
+		
+		if(faqtext.equalsIgnoreCase("Preguntas frecuentes")) {
+			System.out.println("FAQ page is working ");
+			return faqtext;
+		}
+		else {
+			System.out.println("FAQ page is not working");
+			return faqtext;
+		}
+		
+	}	
+	
+	public String verifySchlesingerGroupLink() {
+		
+		schlesingerGroupIcon.click();
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+
+		BaseClass.sleep(3000);	
+		String schlestxt=driver.getCurrentUrl();
+		System.out.println(schlestxt);
+		
+		if(schlestxt.contains("https://www.schlesingergroup.com/")) {
+			System.out.println("Schlesinger Group Page is verified");
+			driver.close();
+			driver.switchTo().window(tabs.get(0));
+			return "https://www.schlesingergroup.com/";
+		}else {
+			System.out.println("Schlesinger Group Page is not verified");
+			driver.close();
+			driver.switchTo().window(tabs.get(0));
+			return "Schlesinger Group Page is not verified";
+		}	
+	}
+}

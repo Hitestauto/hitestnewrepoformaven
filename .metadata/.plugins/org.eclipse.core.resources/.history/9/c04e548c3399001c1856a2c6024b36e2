@@ -1,0 +1,365 @@
+/**
+ * 
+ */
+package esconsumer_usersite.modules;
+
+import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import esconsumer_usersite.baseclass.BaseClass;
+
+
+
+
+/**
+ * Descriptions -
+ * This class is all about to matched answer id from UI and DB
+ * Process - 1 - I get question text and answer text and print it
+ *           2 - get Answer Id from UI and use this answer id in query
+ *           3 - Assert both means Answer id from UI and Answer id from DB
+ * 
+ * @author Sunil Kashyap
+ *
+ * 13 Apr, 2021h
+ */
+public class ProfileSurveys {
+	
+	
+	@FindBy(xpath = "//ul[@id='sidebarul']/descendant::a[2]") WebElement profileSurveysBtn;
+	@FindBy(xpath = "//div[@id='profilepageundermargin']/descendant::h1") WebElement profileSurveysText;
+	
+	@FindBy(id = "categoryList") WebElement categoryList;
+	@FindBy(xpath = "//div[@id='categoryList']/descendant::button[1]") WebElement categoty;
+	@FindBy(xpath = "//div[@id='profilepageundermargin']/descendant::h3[2]") WebElement categoryNotAvailable;
+	
+	@FindBy(id = "QList") WebElement checkQuestions;
+	@FindBy(xpath = "//div[@id='QList']/button") public List<WebElement> questions;
+	@FindBy(xpath = "(//div[@id='QList']/button)[1]") public WebElement quest1;
+	@FindBy(xpath = "(//div[@id='QList']/button)[2]") public WebElement quest2;
+	@FindBy(xpath = "(//div[@id='QList']/button)[3]") public WebElement quest3;
+	@FindBy(xpath = "(//div[@id='QList']/button)[4]") public WebElement quest4;
+	
+	@FindBy(id = "MultiPunchDiv") WebElement checkboxTypeAns;
+	@FindBy(xpath = "//div[@id='AnswrChkList']/descendant::input[1]") WebElement checkAnsId;
+	@FindBy(xpath = "//div[@id='AnswrChkList']/descendant::div[3]") WebElement checkboxAnsText;
+	
+	@FindBy(id = "select2-AnswrDropDownList-container") WebElement selectTypeAns;
+	@FindBy(id = "AnswrDropDownList") WebElement selectAns;
+	@FindBy(xpath = "//select[@id='AnswrDropDownList']/option[2]") WebElement selectFirstAnsID;
+	
+	@FindBy(id = "AnswrTextDiv") WebElement TextAndDateType;
+	
+	@FindBy(xpath = "//div[@id='AnswrTextDiv']/input") WebElement textTypeAns;
+	@FindBy(xpath = "//div[@id='AnswrTextDiv']/input") WebElement testAns;
+	
+	@FindBy(xpath = "//div[@id='AnswrTextDiv']/div/div/i") WebElement dateTypeAns;
+	@FindBy(xpath = "//div[@id='spin_Wheel']/following-sibling::div/descendant::tbody/descendant::td[@class='day'][1]") WebElement date;
+	@FindBy(xpath = "//div[@id='AnswrTextDiv']/descendant::input") WebElement dateAns;
+	
+	@FindBy(xpath = "//button[@id='SaveButton']") WebElement saveBtn;
+	
+	WebDriver driver;
+	String ansID=" and AnswerID=";
+	String ansId=null;
+
+	
+	public ProfileSurveys(WebDriver driver) {
+		
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	/**
+	 *  This method used to check profile survey page is open or not
+	 */
+	public void openProfileSurveyPage() {
+		profileSurveysBtn.click();
+		BaseClass.sleep(5000);
+		if(profileSurveysText.isDisplayed()==true) {
+			System.out.println("Profile Survey page is open");
+		
+		}
+		else {
+			System.out.println("Profile Survey page is not open. Please check your internet connect or other permission");
+		}
+		
+	}
+	
+	/**
+	 * This method is used to checked profile survey category is available and also clicked on category
+	 */
+	public void clickOnCategory() {
+		
+		try {
+			if(categoryList.isDisplayed()==true) {
+				BaseClass.sleep(3000);
+				categoty.click();
+			}
+		} catch (Exception e) {
+			System.out.println(categoryNotAvailable.getText()+e.getMessage());
+		}
+	}
+	
+	/**
+	 * This method id used to get userid 
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getUserID() throws SQLException {
+
+		String query = null;
+		try {
+			if(BaseClass.currentURL.contains("stg")) {
+				query=getQuery("user")+"'"+getTestData("username")+"'";
+			}
+			else {
+				query=getQuery("user")+"'"+getTestData("produsername")+"'";
+			}
+		} catch (Exception e) {
+			System.out.println("Query is not correct");
+		}
+		
+		DatabaseIntegrations.executeQuery(query, 1);
+		String usersid = DatabaseIntegrations.getColumnValue();
+		return usersid;
+	}
+	
+	/**
+	 * This method is used to get data from queries.properties file
+	 * @param query
+	 * @return
+	 */
+	public String getQuery(String query) {
+		
+		BaseClass.queryfile();
+		Properties props = BaseClass.prop;
+		return props.getProperty(query);
+	}
+	
+	/**
+	 * This method is used to get data from testData.properties file
+	 * @param data
+	 * @return
+	 */
+	public String getTestData(String data) {
+		BaseClass.loadTestDataFile();
+		Properties props = BaseClass.prop;
+		return props.getProperty(data);
+	}
+	
+	/**
+	 * This method is used to click on question and its respondent answer
+	 */
+	public void fillQuestion() {
+		
+		try {
+			
+			System.out.println("---------------- select answer from UI-------------");
+			
+			if(checkQuestions.isDisplayed()==true) {
+				
+//				Iterator<WebElement> itr = questions.iterator();
+//				while (itr.hasNext()) {
+//					BaseClass.sleep(3000);
+//					WebElement ques=itr.next();
+//					ques.click();
+//					System.out.println("Question - "+ques.getText());
+//					BaseClass.sleep(2000);
+//					getAnswer();
+//				}
+				
+				quest1.click();
+				System.out.println("Question - "+quest1.getText());
+				getAnswer();
+				BaseClass.sleep(3000);
+				
+				quest2.click();
+				System.out.println("Question - "+quest2.getText());
+				getAnswer();
+				BaseClass.sleep(3000);
+				
+				quest3.click();
+				System.out.println("Question - "+quest3.getText());
+				getAnswer();
+				BaseClass.sleep(3000);
+				
+				quest4.click();
+				System.out.println("Question - "+quest4.getText());
+				getAnswer();
+			}
+		} catch (Exception e) {
+			System.out.println("Question is not available");
+		}
+		
+	}
+	
+	public void getAnswer() {
+		
+		try {
+			if(selectTypeAns.isDisplayed()==true) {
+				selectTypeAnswer();
+				BaseClass.sleep(1000);
+				saveBtn();
+				
+			}else if(checkboxTypeAns.isDisplayed()==true) {
+				checkBoxTypeAns();
+				BaseClass.sleep(1000);
+				saveBtn();
+				
+			}else if(TextAndDateType.isDisplayed()==true) {
+				
+				try {
+					if(textTypeAns.isDisplayed()==true) {
+						textTypeAns();
+						BaseClass.sleep(1000);
+						saveBtn();
+					}
+				} catch (Exception e) {
+					
+					if(dateTypeAns.isDisplayed()==true){
+						dateAns.click();
+						date.click();
+						BaseClass.sleep(1000);
+						saveBtn();
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Answer Type is not available");
+		}
+	}
+	
+	/**
+	 * This method will be used when answer is select type only
+	 */
+	public void selectTypeAnswer() {
+		BaseClass.selectByIndex(selectAns, 1);
+	}
+
+	/**
+	 * This method will be used when answer is check box type only 
+	 */
+	public void checkBoxTypeAns() {
+		
+		try {
+			if(checkAnsId.isSelected()==true) {
+				BaseClass.implicitilyWait(driver, 10);
+			}
+			else {
+				checkAnsId.click();
+				BaseClass.implicitilyWait(driver, 10);
+			}
+		} catch (Exception e) {
+			System.out.println("Answer is not availabe -" +e.getMessage());
+		}
+	}
+	
+
+	/**
+	 * This method is used when answer is text type means it need to enter any text 
+	 */
+	public void textTypeAns() {
+		textTypeAns.clear();
+		textTypeAns.sendKeys("testing");
+	}
+	
+	/**
+	 * This method is used to click on save/update btn 
+	 */
+	public void saveBtn() {
+		saveBtn.click();
+	}
+	
+
+	/**
+	 * This method is used to get question from UI
+	 * @param webElmnts
+	 * @return
+	 */
+	public String getQuestions(WebElement webElmnts) {
+		
+		webElmnts.click();
+		System.out.println("------------------------------------------------------------");
+		System.out.println("Questions - "+webElmnts.getText());
+		return webElmnts.getText();
+		
+	}
+	
+	/**
+	 * This metrhod is used to get question id from UI
+	 * @param webElmnts
+	 * @return
+	 */
+	public String getQuestionID(WebElement webElmnts) {
+		return webElmnts.getAttribute("data-qid");
+	}
+	
+	/**
+	 * This method is used to get answer id from UI
+	 * @return
+	 */
+	public String getAnswerIDFromUI() {
+		
+		if(selectTypeAns.isDisplayed()==true) {
+			System.out.println("Answer - "+selectFirstAnsID.getText());
+			ansId=selectFirstAnsID.getAttribute("id");
+			System.out.println("Ans ID from UI - "+ansId);
+			return ansId;
+			
+		}else if(checkboxTypeAns.isDisplayed()==true) {
+			System.out.println("Answer - "+checkboxAnsText.getText());
+			ansId=checkAnsId.getAttribute("id");
+			System.out.println("Ans ID from UI - "+ansId);
+			return ansId;
+			
+		}else if(TextAndDateType.isDisplayed()== true) {
+			
+			try {
+				
+				if(textTypeAns.isDisplayed()==true) {
+					System.out.println("Answer - "+testAns.getAttribute("value"));
+					ansId=testAns.getAttribute("id");
+					System.out.println("Ans ID from UI - "+ansId);
+				}
+				
+			} catch (Exception e) {
+				if(dateTypeAns.isDisplayed()==true){
+					System.out.println("Answer - "+dateAns.getAttribute("value"));
+					ansId=dateAns.getAttribute("id");
+					System.out.println("Ans ID from UI - "+ansId);
+					
+				}
+			}
+			return ansId;
+		}
+		else {
+			return "Answer Id is not get";
+		}
+	}
+	
+	/**
+	 * This method is used to get ans id from DB but if ansid==0 then it will return 0
+	 * @return
+	 * @throws SQLException
+	 */
+	public String getAnswerIdFromDB() throws SQLException {
+		
+		if(!(ansId.equals("0"))) {
+			String query = getQuery("profileResponse")+getUserID()+ansID+ansId;	
+			DatabaseIntegrations.executeQuery(query, 2);
+			System.out.println("Ans ID from DB - "+DatabaseIntegrations.getColumnValue());
+			return DatabaseIntegrations.getColumnValue();
+		}else {
+			System.out.println("Ans ID from DB - "+ansId);
+			return ansId;
+		}
+	}
+	
+}

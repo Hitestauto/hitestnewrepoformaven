@@ -1,0 +1,1120 @@
+/**
+ * 
+ */
+package esconsumer_usersite.modules;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Properties;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import esconsumer_usersite.baseclass.BaseClass;
+
+
+/**
+ * This class is all about join process from US Healthcare
+ * 
+ * @author Sunil Kashyap
+ *
+ * 25 Mar, 2021
+ */
+public class Join extends BaseClass{
+	
+	WebDriver driver;
+	
+	@FindBy(xpath = "//a[text()='Regístrese']") WebElement join;
+	
+	@FindBy(name = "FirstName") WebElement firstName;
+	@FindBy(name = "LastName") WebElement lastName;
+	@FindBy(name = "Address1") WebElement address1;
+	@FindBy(name = "Address2") WebElement address2;
+	@FindBy(name = "City") WebElement city;
+	@FindBy(name = "ZIP") WebElement zipcode;
+	@FindBy(name = "Email") WebElement email;
+	@FindBy(name = "PhoneNumber") WebElement phoneNumber;
+
+	@FindBy(id = "btnNext") WebElement nextBtn;
+	@FindBy(name = "Password") WebElement password;
+	@FindBy(name = "ConfirmPassword") WebElement confirmPasswrd;
+	
+	@FindBy(id = "select2-5395-container") WebElement gender;
+	@FindBy(xpath = "//input[@role='textbox']") WebElement enterSearchingValue;
+	
+	//DOB xpath
+	@FindBy(xpath = "//div[@id='dobJoinDiv']/descendant::input") WebElement dob;
+	@FindBy(xpath = "//body[@id='home']/descendant::div[1]/following-sibling::div[8]/descendant::tr[2]/th[2]") WebElement clickOnMonthAndYear;
+	@FindBy(xpath = "(//body[@id='home']/descendant::div[1]/following-sibling::div[8]/descendant::thead/tr[2]/th[2])[2]") WebElement clickOnYear;
+	@FindBy(xpath = "//body[@id='home']/descendant::div[1]/following-sibling::div[8]/div[3]/descendant::span") List<WebElement> allYears;
+	@FindBy(xpath = "//body[@id='home']/descendant::div[1]/following-sibling::div[8]/div[3]/descendant::tr[2]/th[1]") WebElement prevBtn;
+	@FindBy(xpath = "//body[@id='home']/descendant::div[1]/following-sibling::div[8]/div[2]/descendant::span") List<WebElement> allMonths;
+	@FindBy(xpath = "//body[@id='home']/descendant::div[1]/following-sibling::div[8]/descendant::td[@class='day']") List<WebElement> allDayDate;
+	
+	@FindBy(name = "STANDARD_SG_ESNIFNIE") WebElement nie;
+	
+	@FindBy(id = "select2-6531-container") WebElement provincia;
+	@FindBy(xpath = "//ul[@id='select2-6531-results']/li[5]") WebElement provinciaOptions;
+	
+	@FindBy(id = "select2-6530-container") WebElement community;
+	@FindBy(xpath = "//ul[@id='select2-6530-results']/li[5]") WebElement communityOptions;
+		
+	@FindBy(xpath = "//div[@id='numArrCaptha']/descendant::span") WebElement getNumberFromHeading;
+	@FindBy(xpath = "//div[@id='numArrCaptha']/descendant::div/descendant::div") List<WebElement> allVisibleNumber;
+	
+	@FindBy(xpath = "//div[@id='privacyPolicyDiv']/descendant::a[1]") WebElement consentDeclaration;
+	@FindBy(xpath = "//a[contains(text(),'Declaración de consentimiento para el almacenamien')]") WebElement consentDeclarationStg;
+	@FindBy(xpath =  "//b[contains(text(),'Sí, Con conocimiento de')]/preceding-sibling::input") WebElement yesConsent;
+	@FindBy(xpath = "//button[text()='Seguir']") WebElement proceedBtn;
+	
+	@FindBy(xpath = "//div[@id='privacyPolicyDiv']/descendant::a[2]") WebElement termConditionLink1;
+	@FindBy(xpath = "//a[contains(text(),'Acuerdo de las condiciones')]") WebElement termConditionLink;
+	@FindBy(xpath = "//body[@id='home']/descendant::p") WebElement termConditionText;
+	
+	@FindBy(xpath = "//a[contains(text(),'haga clic ')]") WebElement clickhereLink;
+	
+	@FindBy(id = "termsChekBbox") WebElement termAndConditionAgreement;
+	
+	@FindBy(id = "btnSubmit") WebElement signUpBtn;
+	@FindBy(xpath = "//div[@id='thankyoudiv']/descendant::h3") WebElement joinSuccessBtn;
+
+	@FindBy(xpath = "(//a[text()='Cerrar sesión'])[1]") WebElement logOutBtn;
+	@FindBy(id = "errorMessage") WebElement errorMessage;
+	@FindBy(xpath = "//div[@id='BlockedIPDiv']/descendant::i") WebElement joinPageNotOpenMsg;
+
+	//login xpath
+	@FindBy(xpath = "//a[text()=' Acceso']") WebElement loginBtn;
+	@FindBy(id = "txtUserName") WebElement username;
+	@FindBy(id = "Password") WebElement pwd;
+	@FindBy(id = "LoginBtn") WebElement submitBtn;
+	@FindBy(xpath = "//h1[text()='Estudios']") WebElement surveyText;
+	@FindBy(xpath = "//h1[contains(text(),'Encuestas de Perfil')]") WebElement profileSurvey;
+	
+	//Univox Admin xpath
+	@FindBy(id = "UserName") WebElement usrnm;
+	@FindBy(id = "Password") WebElement pass;
+	@FindBy(id = "LoginBtn") WebElement login;
+	@FindBy(id = "textAreacomment") WebElement text;
+	
+	//Ip whitelist fuctionality module
+	@FindBy(xpath = "//span[text()='Admin']") WebElement admin;
+	@FindBy(xpath = "//a[contains(text(),'IP WHITELIST')]") WebElement ipWhitelist;
+	@FindBy(xpath = "//span[@id='divAddRole']/button") WebElement addIPBtn;
+	@FindBy(id = "IPAddress") WebElement ipAddrField;
+	@FindBy(id = "Remarks") WebElement ipAddrRemark;
+	@FindBy(xpath = "//button[contains(text(),' Save')]") WebElement saveButton;
+	
+	@FindBy(xpath = "//span[text()='Welcome']") WebElement welcome;
+	@FindBy(xpath = "//a[contains(text(),'Manage Panelists')]") WebElement managePanelist;
+	@FindBy(id = "txtKeywords") WebElement keywordField;
+	@FindBy(id = "fieldList") WebElement searchField;
+	@FindBy(id = "btnSearch") WebElement searchBtn;
+	@FindBy(xpath = "//table[@id='example']/tbody/descendant::input") WebElement checkBox;
+	@FindBy(id = "btnActive") WebElement activeBtn;
+	@FindBy(xpath = "//textarea[@id='textAreacomment']") WebElement textarea;
+	@FindBy(name = "btnAddComment") WebElement addCommentBtn;
+	@FindBy(xpath = "//table[@id='example']/tbody/descendant::td[10]") WebElement activeText;
+	
+	@FindBy(xpath = "//table[@id='example']/tbody/descendant::a[1]") WebElement panelistLoginID;
+	@FindBy(id = "userInfoViewModel_username") WebElement panelistLoginIDField;
+	@FindBy(id = "userInfoViewModel_email") WebElement PanelistEmailID;
+	@FindBy(xpath = "(//button[contains(text(),'Update')])[1]") WebElement updateBtn;
+	@FindBy(id = "UserComment") WebElement updateFieldTextarea;
+	@FindBy(name = "btnComment") WebElement updateFieldsubmit;
+	
+	//getting IP address xpath on google search bar
+	@FindBy(xpath = "//span[text()='Your public IP address']/ancestor::div[1]/preceding-sibling::div/descendant::span[2]") WebElement ipAddr;
+	@FindBy(xpath = "//input[@name='q']") WebElement searchBox;
+	@FindBy(xpath = "//ul[@role='listbox']/descendant::span[1]") WebElement clickOnResult;
+	
+	//'I agree' button when I open google page on UK hma
+	@FindBy(xpath = "//div[@id='introAgreeButton']/span/span") WebElement agreeBtn;
+	@FindBy(xpath = "//div[text()='Acepto']") WebElement agreeBtn1;
+	
+	//getting IP from Captcha page
+	@FindBy(xpath = "//p[contains(text(),'Your IP Address is ')]/span[1]") WebElement getIP;
+	
+	//mailinator xpath
+	//@FindBy(xpath = "//input[@id='addOverlay']") WebElement mailinatorSearchField;
+	@FindBy(id = "search") WebElement mailinatorSearchField;
+	//@FindBy(xpath = "//button[@id='go-to-public']") WebElement goBtn;
+	@FindBy(xpath = "//button[contains(text(),'GO')]") WebElement goBtn;
+	@FindBy(xpath = "//td[contains(text(),'Subject')]/ancestor::div[2]/following-sibling::div/descendant::tr/td[3]") List<WebElement> emailSubjets;
+	@FindBy(xpath = "//table[@id='Table_01']/descendant::a[1]") WebElement emailVerifyBtn;
+	
+	//login error messages
+	@FindBy(id="lgnmsg") WebElement oopsmsg;
+	
+	public ArrayList<String> tabs;
+	
+	public Join(WebDriver driver) {
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	/**
+	 * Description-
+	 * this method is used for join user form Staging env
+	 * 
+	 * @param fstnm
+	 * @param lstnm
+	 * @param gndr
+	 * @param emailId
+	 * @param pwd
+	 * @param cnfrmPwd
+	 * @param year
+	 * @param monthValue
+	 * @param addrss1
+	 * @param addrss2
+	 * @param zip
+	 * @return
+	 * @throws IOException 
+	 */
+	public boolean joinStg(String fstnm, String lstnm, String addr1, String addr2, String cityName, String zip, String emailId,
+			String phoneno, String pwd, String confrmPwd, String gndr, String bdayYear, String bdayMonth, String date) throws IOException{
+
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		jse.executeScript("arguments[0].click();", join);
+		sleep(5000);
+		try {	
+			if(joinPageNotOpenMsg.isDisplayed()==true) {
+				System.out.println("Tenemos suficientes participantes de su ubicación actual para esta encuesta. Si tiene alguna pregunta, póngase en contacto con info@personasconopinion.com");
+			}
+		} catch (Exception e) {	
+			System.out.println("Join Page is open");
+		}	
+		
+		try {
+			if(firstName.isDisplayed()==true) {
+				firstName.sendKeys(fstnm);
+			}
+		} catch (Exception e) {
+			System.out.println("Join details is not open. Please check your internet connection speed.");
+		}
+		sleep(1000);
+		consentDeclarationStg.click();
+		sleep(1000);
+		yesConsent.click();
+		proceedBtn.click();
+		sleep(1000);
+		BaseClass.implicitilyWait(driver, 10);
+		lastName.sendKeys(lstnm);
+		BaseClass.implicitilyWait(driver, 10);
+		address1.sendKeys(addr1);
+		address2.sendKeys(addr2);
+		city.sendKeys(cityName);
+		BaseClass.implicitilyWait(driver, 10);
+		zipcode.sendKeys(zip);
+		email.sendKeys(emailId);
+		phoneNumber.sendKeys(phoneno);
+	
+		sleep(1000);
+		nextBtn.click();
+		
+		try {
+			String existEmailMsg=errorMessage.getText();
+			if(existEmailMsg.equals("La dirección de correo ya existe.")) {
+				System.out.println("Join process is not completed because email id already exist");
+			}
+		} catch (Exception e) {
+		}
+		
+		BaseClass.implicitilyWait(driver, 10);
+		password.sendKeys(pwd);
+		confirmPasswrd.sendKeys(confrmPwd);
+		BaseClass.implicitilyWait(driver, 10);
+				
+		gender.click();
+		String gendr=getGender(gndr);		
+		enterSearchingValue.sendKeys(gendr);
+		enterSearchingValue.sendKeys(Keys.ENTER);
+				
+		dob.click();
+		String month=getmonth(bdayMonth);
+		selectDOB(bdayYear, month, date);
+		
+		sleep(1000);
+		nie.sendKeys("Testing");
+		provincia.click();
+		provinciaOptions.click();
+		sleep(1000);
+		community.click();
+		communityOptions.click();
+		
+		jse.executeScript("window.scrollBy(0,450)");
+		sleep(2000);
+		
+		String getNo=getNumberFromHeading.getText();
+		Iterator<WebElement> itr = allVisibleNumber.iterator();
+		while (itr.hasNext()) {
+			WebElement value = itr.next();
+			String number=value.getText();
+			
+			if(number.equals(getNo)) {
+				value.click();
+				break;
+			}
+		}
+		
+		sleep(2000);
+//		consentDeclaration.click();
+//		sleep(1000);
+//		yesConsent.click();
+//		proceedBtn.click();
+		
+		checkingTermAndConditionPage();
+		
+		BaseClass.sleep(20000);
+		termAndConditionAgreement.click();
+		BaseClass.implicitilyWait(driver, 10);
+		signUpBtn.click();
+		BaseClass.sleep(20000);
+		
+		try {
+			
+			String joinMsg=joinSuccessBtn.getText();
+			if(joinMsg.equalsIgnoreCase("¡Gracias por registrarse! ")) {
+				System.out.println("Join successfully on "+BaseClass.urls+" from ES Consumer Panel. Please verify Email.");
+				sleep(3000);
+				clickHereLink();
+			}
+			return true;
+		} catch (Exception e) {
+			
+			String msg=errorMessage.getText();
+			if(msg.equalsIgnoreCase("¡UPS! Algo salió mal.")) {	
+				System.out.println("Join is not completed and showing this error message - "+msg);
+				}
+			return false;
+		}				
+	}
+	/**
+	 * Description-
+	 * this method is used for join from prod env
+	 * 
+	 * @param fstnm
+	 * @param lstnm
+	 * @param gndr
+	 * @param emailId
+	 * @param pwd
+	 * @param cnfrmPwd
+	 * @param year
+	 * @param monthValue
+	 * @param addrss1
+	 * @param addrss2
+	 * @param zip
+	 * @return
+	 * @throws IOException 
+	 */
+	public boolean joinProd(String fstnm, String lstnm, String addr1, String addr2, String cityName, String zip, String emailId,
+			String phoneno, String pwd, String confrmPwd, String gndr, String bdayYear, String bdayMonth, String date) throws IOException{
+
+		JavascriptExecutor jse = (JavascriptExecutor)driver;
+		jse.executeScript("arguments[0].click();", join);
+		sleep(5000);
+		try {	
+			if(joinPageNotOpenMsg.isDisplayed()==true) {
+				System.out.println("Tenemos suficientes participantes de su ubicación actual para esta encuesta. Si tiene alguna pregunta, póngase en contacto con info@personasconopinion.com");
+			}
+		} catch (Exception e) {	
+			System.out.println("Join Page is open");
+		}	
+		
+		try {
+			if(firstName.isDisplayed()==true) {
+				firstName.sendKeys(fstnm);
+			}
+		} catch (Exception e) {
+			System.out.println("Join details is not open. Please check your internet connection speed.");
+		}
+		
+		BaseClass.implicitilyWait(driver, 10);
+		lastName.sendKeys(lstnm);
+		BaseClass.implicitilyWait(driver, 10);
+		address1.sendKeys(addr1);
+		address2.sendKeys(addr2);
+		city.sendKeys(cityName);
+		BaseClass.implicitilyWait(driver, 10);
+		zipcode.sendKeys(zip);
+		email.sendKeys(emailId);
+		phoneNumber.sendKeys(phoneno);
+	
+		sleep(1000);
+		nextBtn.click();
+		
+		try {
+			String existEmailMsg=errorMessage.getText();
+			if(existEmailMsg.equals("La dirección de correo ya existe.")) {
+				System.out.println("Join process is not completed because email id already exist");
+			}
+		} catch (Exception e) {
+		}
+		
+		BaseClass.implicitilyWait(driver, 10);
+		password.sendKeys(pwd);
+		confirmPasswrd.sendKeys(confrmPwd);
+		BaseClass.implicitilyWait(driver, 10);
+				
+		gender.click();
+		String gendr=getGender(gndr);		
+		enterSearchingValue.sendKeys(gendr);
+		enterSearchingValue.sendKeys(Keys.ENTER);
+				
+		dob.click();
+		String month=getmonth(bdayMonth);
+		selectDOB(bdayYear, month, date);
+		
+		sleep(1000);
+		nie.sendKeys("Testing");
+		provincia.click();
+		provinciaOptions.click();
+		sleep(1000);
+		community.click();
+		communityOptions.click();
+		
+		jse.executeScript("window.scrollBy(0,450)");
+		sleep(2000);
+		
+		String getNo=getNumberFromHeading.getText();
+		Iterator<WebElement> itr = allVisibleNumber.iterator();
+		while (itr.hasNext()) {
+			WebElement value = itr.next();
+			String number=value.getText();
+			
+			if(number.equals(getNo)) {
+				value.click();
+				break;
+			}
+		}
+		
+		sleep(2000);
+		consentDeclaration.click();
+		sleep(1000);
+		yesConsent.click();
+		proceedBtn.click();
+		
+		checkingTermAndConditionPage();
+		
+		BaseClass.sleep(20000);
+		termAndConditionAgreement.click();
+		BaseClass.implicitilyWait(driver, 10);
+		signUpBtn.click();
+		BaseClass.sleep(20000);
+		
+		try {
+			
+			String joinMsg=joinSuccessBtn.getText();
+			if(joinMsg.equalsIgnoreCase("¡Gracias por registrarse! ")) {
+				System.out.println("Join successfully on "+BaseClass.urls+" from ES Consumer Panel. Please verify Email.");
+				sleep(3000);
+				clickHereLink();
+			}
+			return true;
+		} catch (Exception e) {
+			
+			String msg=errorMessage.getText();
+			if(msg.equalsIgnoreCase("¡UPS! Algo salió mal.")) {	
+				System.out.println("Join is not completed and showing this error message - "+msg);
+				}
+			return false;
+		}				
+	}
+
+
+	
+	public void checkingTermAndConditionPage() {
+		
+		termConditionLink.click();
+		sleep(2000);
+		
+		ArrayList<String> tab=new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tab.get(1));
+		sleep(1000);
+		
+		String text=termConditionText.getText();
+		if(text.equals("Lo más importante respecto a nuestras condiciones de participación es:")) {
+			System.out.println("Term and Conditions link verified");
+		}else {System.out.println("Term and Conditions link not verified");}
+		
+		driver.close();
+		driver.switchTo().window(tab.get(0));
+	}
+	
+	public void clickHereLink() {
+		clickhereLink.click();
+		sleep(2000);
+		
+		String txt=join.getText();
+		if(txt.equals("Regístrese")) {
+			System.out.println("Click Here link on join page has been verified");
+		}else {System.out.println("Click Here link on join page has not been verified");}
+	} 
+	
+	/**
+	 * Get IP Address from google page and whitelist it from admin IP Whitelist option
+	 * And update existing user id from manage panelist page  
+	 */
+	public void getIPAddressAndMakeWhiteList() {
+		
+		//open new tab
+		((JavascriptExecutor)driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		driver.navigate().to("https://www.iplocation.net/");
+		BaseClass.sleep(5000);
+		String ipAddrs=getIP.getText();
+		
+//		try {
+//			if(agreeBtn1.isDisplayed()==true) {
+//				agreeBtn1.click();
+//			}
+//		} catch (Exception e) {
+//			if(agreeBtn.isDisplayed()==true) {
+//				agreeBtn.click();
+//			}
+//		}
+//		
+//		searchBox.sendKeys("what is my ip");
+//		BaseClass.sleep(1000);
+//		searchBox.sendKeys(Keys.ENTER);
+////		clickOnResult.click();
+////		clickOnResult.sendKeys(Keys.ENTER);
+//		String ipAddrs=ipAddr.getText();
+//		BaseClass.sleep(2000);
+		
+		BaseClass.loadTestDataFile();
+		Properties props = BaseClass.prop;
+		try {
+			
+			if(BaseClass.currentURL.contains("stg")) {
+				
+				driver.navigate().to(props.getProperty("adminStgUrl"));
+				BaseClass.sleep(2000);
+				// Enter username and password
+				usrnm.sendKeys(props.getProperty("adminUsername"));
+				pass.sendKeys(props.getProperty("adminPassword"));
+			}
+			else {
+				driver.navigate().to(props.getProperty("adminProdUrl"));
+				BaseClass.sleep(2000);
+				// Enter username and password
+				usrnm.sendKeys(props.getProperty("adminProdUsername"));
+				pass.sendKeys(props.getProperty("adminProdPassword"));
+			}
+		} catch (Exception e) {
+			System.out.println("Admin Credential is not correct");
+		}	
+		
+		BaseClass.implicitilyWait(driver, 10);
+		login.click();
+		BaseClass.sleep(2000);
+		
+		JavascriptExecutor executors=(JavascriptExecutor) driver;
+		executors.executeScript("arguments[0].click();", admin);
+		BaseClass.sleep(1000);
+		
+		JavascriptExecutor executor=(JavascriptExecutor) driver;
+		executor.executeScript("arguments[0].click();", ipWhitelist);
+		BaseClass.sleep(1000);
+		
+		addIPBtn.click();
+		BaseClass.sleep(1000);
+		ipAddrField.sendKeys(ipAddrs);
+		BaseClass.sleep(1000);
+		ipAddrRemark.sendKeys("Testing");
+		saveButton.click();
+		BaseClass.sleep(3000);
+		
+		updateEmailID(); // Updating EmailID
+		
+		driver.close();
+		driver.switchTo().window(tabs.get(0));
+		
+	}
+	
+	/**
+	 * Description-
+	 * This method created here for login and login with created join credential
+	 * 
+	 * @param usrnm
+	 * @param pass
+	 * @return
+	 */
+	public boolean verifyLogin(String usrnm, String pass) {
+	
+//		loginBtn.click();
+		BaseClass.implicitilyWait(driver, 10);
+		username.sendKeys(usrnm);
+		pwd.sendKeys(pass);
+		BaseClass.implicitilyWait(driver, 50);
+		submitBtn.click();
+		BaseClass.sleep(5000);
+		try{
+		
+			boolean ipqsmsgs = driver.findElements(By.id("lgnmsg")).size() > 0;
+				
+		//boolean ipqsmsgs=oopsmsg.isDisplayed();
+		if(ipqsmsgs==true)
+		{
+		String ipqsmsgText=oopsmsg.getText();
+		if(ipqsmsgText.equalsIgnoreCase("Oups ! Un problème technique semble être survenu. Veuillez contacter notre assistance clientèle pour obtenir de l'aide."))
+		{
+			try {
+				activeUser(readExcelData("Join", 1, 6));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			BaseClass.sleep(5000);
+			submitBtn.click();
+			BaseClass.sleep(10000);
+			verifyPageAfterLogin();
+		}
+		else
+		{
+			
+		BaseClass.sleep(20000);
+		verifyPageAfterLogin();
+		}
+		}
+		}
+		catch(NoSuchElementException e)
+		{
+			BaseClass.sleep(20000);
+			verifyPageAfterLogin();
+		}
+		
+		
+		return true;
+	}
+//		BaseClass.sleep(20000);
+//		
+//		try {
+//			boolean isSurveyText=profileSurvey.isDisplayed();
+//			if(isSurveyText==true) {
+//				System.out.println("Login successfully in ES Consumer");
+//				
+//				BaseClass.sleep(3000);
+//				logOutBtn.click();
+//				BaseClass.sleep(5000);
+//				if(join.isDisplayed()==true) {
+//					System.out.println("Logout successfully from ES Consumer");
+//				}
+//			}
+//			
+//			ArrayList<String> tab=new ArrayList<String>(driver.getWindowHandles());
+//			driver.switchTo().window(tab.get(1));
+//			driver.close();
+//			driver.switchTo().window(tab.get(0));
+//			
+//			return true;
+//		} catch (Exception e) {
+//			System.out.println("Not login in ES Consumer");
+//			return false;
+//		}
+//	}
+	/**
+	 * Description-
+	 * This method Active user form Admin
+	 * @param username
+	 * @return
+	 */
+public void activeUser(String username) {
+		
+		((JavascriptExecutor)driver).executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(2));
+		
+		BaseClass.loadTestDataFile();	
+		Properties props = BaseClass.prop;
+		try {
+			
+			if(BaseClass.currentURL.contains("stg")) {
+				
+				driver.navigate().to(props.getProperty("adminStgUrl"));
+				BaseClass.sleep(1000);
+				// Enter username and password
+				usrnm.sendKeys(props.getProperty("adminUsername"));
+				pass.sendKeys(props.getProperty("adminPassword"));
+			}
+			else {
+				driver.navigate().to(props.getProperty("adminProdUrl"));
+				BaseClass.sleep(1000);
+				// Enter username and password
+				usrnm.sendKeys(props.getProperty("adminProdUsername"));
+				pass.sendKeys(props.getProperty("adminProdPassword"));
+			}
+		} catch (Exception e) {
+			System.out.println("Admin Credential is not correct");
+		}
+		
+		BaseClass.implicitilyWait(driver, 10);
+		login.click();
+		BaseClass.sleep(2000);
+		
+		welcome.click();
+		BaseClass.sleep(1000);
+		managePanelist.click();
+		BaseClass.sleep(1000);
+		
+		try {
+			keywordField.sendKeys(username);
+			BaseClass.sleep(1000);
+			searchBtn.click();
+		} catch (Exception e) {
+			System.out.println("Email Id not found");
+		}
+		BaseClass.sleep(30000);	
+		try {
+			
+			String panelist=panelistLoginID.getText();
+			if(panelist.equals(username)) {
+				BaseClass.sleep(2000);
+//				checkBox.click();
+				JavascriptExecutor executor=(JavascriptExecutor) driver;
+				executor.executeScript("arguments[0].click();", checkBox);
+				BaseClass.sleep(1000);
+				activeBtn.click();
+				BaseClass.sleep(1000);
+				text.sendKeys("Testing");
+				BaseClass.sleep(1000);
+				addCommentBtn.click();
+				BaseClass.sleep(25000);
+				driver.close();
+				driver.switchTo().window(tabs.get(1));
+			}
+		} catch (Exception e) {		
+			System.out.println("Panelist Login Id is not available");
+		}
+	}
+public boolean verifyPageAfterLogin()
+{
+try {
+boolean isSurveyText=profileSurvey.isDisplayed();
+if(isSurveyText==true) {
+	System.out.println("Login successfully in FR Consumer");
+	
+	BaseClass.sleep(3000);
+	logOutBtn.click();
+	BaseClass.sleep(5000);
+	if(join.isDisplayed()==true) {
+		System.out.println("Logout successfully from FR Consumer");
+	}
+}
+ArrayList<String> tab=new ArrayList<String>(driver.getWindowHandles());
+driver.switchTo().window(tab.get(1));
+driver.close();
+driver.switchTo().window(tab.get(0));
+
+return true;
+} catch (Exception e) {
+System.out.println("Not login in FR Consumer");
+return false;
+}
+}
+	
+	/**
+	 * Open Admin site in new tab
+	 */
+	public void openUnivoxAdminSite() {
+		
+		//Open new tab and enter univox admin url
+		loadTestDataFile();
+		((JavascriptExecutor)driver).executeScript("window.open()");
+		tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		driver.navigate().to(prop.getProperty("adminStgUrl"));
+		BaseClass.sleep(1000);
+		
+		// Enter username and password
+		usrnm.sendKeys(prop.getProperty("adminUsername"));
+		pass.sendKeys(prop.getProperty("adminPassword"));
+		BaseClass.implicitilyWait(driver, 10);
+		login.click();
+	}
+	/**
+	 * This method is used for admin side login and activate email id and then close tab
+	 * @throws IOException
+	 */
+	public void activateEmailID() throws IOException {
+		openUnivoxAdminSite();
+		sleep(5000);
+		//Click on managePanelist and active email id
+		managePanelist.click();
+		BaseClass.implicitilyWait(driver, 10);
+		keywordField.sendKeys(readExcelData("Join", 1, 6));  
+		BaseClass.selectByvisibletext(searchField, "Email");
+		BaseClass.implicitilyWait(driver, 10);
+		searchBtn.click();
+		BaseClass.sleep(10000);
+		
+		JavascriptExecutor executor=(JavascriptExecutor) driver;
+		executor.executeScript("arguments[0].click();", checkBox);
+	
+		BaseClass.implicitilyWait(driver, 10);
+		executor.executeScript("arguments[0].click();", activeBtn);
+		
+		BaseClass.implicitilyWait(driver, 20);
+		textarea.sendKeys("Testing");
+		
+		BaseClass.implicitilyWait(driver, 10);
+		executor.executeScript("arguments[0].click();", addCommentBtn);
+		System.out.println("Account activated");
+		
+		BaseClass.sleep(2000);
+		
+		
+//		String actText=activeText.getText();
+//		if(actText.equals("Active")) {
+//			System.out.println("Account activated");
+//		}else {System.out.println("Account not activated");}
+		
+		//close tab and return previous
+		driver.close();
+		driver.switchTo().window(tabs.get(0));
+		
+	}
+	
+	/**
+	 * Update exist user id from manage panelist from admin side
+	 */
+	public void updateEmailID() {
+		
+		welcome.click();
+		sleep(1000);
+		managePanelist.click();
+		sleep(1000);
+		
+		try {
+			keywordField.sendKeys(readExcelData("Join", 1, 6));
+		} catch (IOException e) {
+			System.out.println("Email Id not found");
+		}
+		sleep(1000);
+		searchBtn.click();
+		sleep(50000);
+		
+		try {
+			
+			String panelist=panelistLoginID.getText();
+			if(panelist.equals(readExcelData("Join", 1, 6))) {
+				
+				panelistLoginID.click();
+				
+				String str=generateRandomChars()+"@mailinator.com";
+				System.out.println("Updated login/email id - "+str);
+				sleep(1000);
+				panelistLoginIDField.clear();
+				panelistLoginIDField.sendKeys(str);
+				sleep(1000);
+				PanelistEmailID.clear();
+				PanelistEmailID.sendKeys(str);
+				sleep(2000);
+				
+				JavascriptExecutor executor=(JavascriptExecutor) driver;
+				executor.executeScript("arguments[0].click();", updateBtn);
+				sleep(1000);
+				updateFieldTextarea.sendKeys("QA Automation Testing");
+				sleep(1000);
+				updateFieldsubmit.click();
+				sleep(2000);
+				
+				//getting/copy updated email id 
+				String updatedPanelistLoginID=panelistLoginIDField.getAttribute("value");
+				sleep(1000);
+				
+				//open manage panelist page and search updated email
+				welcome.click();
+				sleep(1000);
+				managePanelist.click();
+				sleep(3000);
+				keywordField.clear();
+				keywordField.sendKeys(updatedPanelistLoginID);
+				sleep(2000);
+				searchBtn.click();
+				sleep(25000);
+				String updatePanelist=panelistLoginID.getText();
+				if(updatedPanelistLoginID.equals(updatePanelist)) {
+					System.out.println("Panelist Login Id updated successfully ");
+				}
+			}
+		
+		} catch (Exception e) {		
+			System.out.println("Panelist Data not updated. Please try again");
+		}
+	}
+	
+	/**
+	 * Get Email verification status from DB after verified join email
+	 * 
+	 * @return
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	public String getEmailVerificationStatus() throws SQLException, IOException {
+		
+		queryfile();
+		String query=prop.getProperty("emailVerificatonStatus")+"'"+readExcelData("Join", 1, 6)+"'";
+		
+		DatabaseIntegrations.executeQuery(query, 12);
+		return DatabaseIntegrations.getColumnValue();
+	}
+	
+	/**
+	 * Get Email Verification status before verify join email
+	 * 
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	public void emailverificationStatusAfterJoin() throws SQLException, IOException {
+		 System.out.println("Email Verification status from DB after join - "+getEmailVerificationStatus());
+	}
+	
+	public String emailVerificationStatusAfterVerifyEmail() throws SQLException, IOException {
+		return getEmailVerificationStatus();
+	}
+	
+	
+	/**
+	 * This method is used to verify email from mailinator in new tab
+	 * 
+	 * @param usrname
+	 * @throws IOException
+	 */
+	public void verifyEmailID(String usrname) throws IOException {
+		
+		//Open mailinator in new tab
+		loadTestDataFile();
+		((JavascriptExecutor)driver).executeScript("window.open()");
+		tabs = new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+		driver.navigate().to(prop.getProperty("mailinator"));
+		BaseClass.sleep(3000);
+		verifyEmailOnMailinator(usrname);
+		BaseClass.sleep(2000);
+		verifyLogin(readExcelData("Join", 1, 6), readExcelData("Join", 1, 8));
+		
+	}
+	
+	/**
+	 * Verify join email through the mailinator in new tab
+	 * 
+	 * @param email
+	 */
+	public void verifyEmailOnMailinator(String email) {
+		
+		mailinatorSearchField.sendKeys(email);
+		sleep(1000);
+		goBtn.click();
+		sleep(2000);
+		
+		Iterator<WebElement> itr = emailSubjets.iterator();
+		while (itr.hasNext()) {
+				
+			 WebElement webelement = itr.next();
+			 String values=webelement.getText();
+			if(values.equalsIgnoreCase("Complete el registro")) {
+				webelement.click();
+			}
+		}
+		sleep(1000);
+		driver.switchTo().frame("html_msg_body");
+		JavascriptExecutor executor=(JavascriptExecutor) driver;
+		executor.executeScript("arguments[0].click();", emailVerifyBtn);
+		sleep(2000);
+	
+		driver.switchTo().window(tabs.get(1));
+		driver.close();
+		driver.switchTo().window(tabs.get(0));
+		ArrayList<String> tab=new ArrayList<String>(driver.getWindowHandles());
+		driver.switchTo().window(tab.get(1));
+	}
+	
+	/**
+	 * select year and date of birth
+	 * 
+	 * @param year
+	 * @param month
+	 * @param day
+	 */
+	public void selectDOB(String year, String month, String day) {
+		
+		clickOnMonthAndYear.click();
+		sleep(1000);
+		clickOnYear.click();
+		for(int i=1;i<allYears.size();i++) {
+			
+			Iterator<WebElement> itrYear = allYears.iterator();
+			while (itrYear.hasNext()) {
+							
+				WebElement years = itrYear.next();
+				String yrs=years.getText();
+				if(yrs.equals(year)) {
+					years.click();
+					break;
+				}
+			}	
+			try {
+				if(prevBtn.isDisplayed()==true) {
+					prevBtn.click();
+				}
+			} catch (Exception e) {
+			}
+		}
+		
+		sleep(1000);
+		selectDates(allMonths, month);
+		sleep(1000);
+		selectDates(allDayDate, day);
+		
+	}
+	
+	/**
+	 * Select Calender data like date and month name from here
+	 * 
+	 * @param webElements
+	 * @param date
+	 */
+	public void selectDates(List<WebElement> webElements, String date) {
+		
+		Iterator<WebElement> itr = webElements.iterator();
+		while (itr.hasNext()) {
+			WebElement dates = itr.next();
+			String calDate=dates.getText();
+				
+			if(calDate.equals(date)) {
+				dates.click();
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Getting translated gender name(in German) from this method
+	 * 
+	 * @param gndr
+	 * @return
+	 */
+	public String getGender(String gndr) {
+		
+		if(gndr.equalsIgnoreCase("Male")) {
+			return "Hombre";
+		}
+		else if(gndr.equalsIgnoreCase("Female")) {
+			return "Femenino";
+		}
+		else if(gndr.equalsIgnoreCase("Other")) {
+			return "Otra opción";
+		}
+		else if(gndr.equalsIgnoreCase("Prefer not to answer")) {
+			return "Prefiero no responder";
+		}
+		else {
+			return "Gender is not matched";
+		}	
+	}
+	
+	public String getmonth(String month) {
+		
+		switch (month) {
+		case "Jan":
+			return "Ene";
+		
+		case "Feb":
+			return "Feb";
+			
+		case "Mar":
+			return "Mar";
+			
+		case "Apr":
+			return "Abr";	
+			
+		case "May":
+			return "May";	
+			
+		case "Jun":
+			return "Jun";	
+			
+		case "Jul":
+			return "Jul";
+		
+		case "Aug":
+			return "Ago";
+			
+		case "Sep":
+			return "Sep";
+			
+		case "Oct":
+			return "Oct";
+			
+		case "Nov":
+			return "Nov";
+			
+		case "Dec":
+			return "Dic";
+		
+		default:
+			return "Month Name is not matched";
+			
+		}
+	}
+	
+	/**
+	 * This method is used to get user name from DB
+	 * 
+	 * @return
+	 * @throws SQLException
+	 * @throws IOException 
+	 */
+	public String getUsrnmfromDB() throws SQLException, IOException {
+		
+		loadTestDataFile();
+		String query=prop.getProperty("users")+readExcelData("Join", 1, 6);
+		DatabaseIntegrations.executeQuery(query,3);
+		System.out.println(DatabaseIntegrations.getColumnValue());
+		return DatabaseIntegrations.getColumnValue();
+		
+	}
+	
+	/**
+	 * This method is used to get first name from DB
+	 * 
+	 * @return
+	 * @throws SQLException
+	 * @throws IOException 
+	 */
+	public String getFirstNmfromDB() throws SQLException, IOException {
+		
+		loadTestDataFile();
+		String query=prop.getProperty("users")+readExcelData("Join", 1, 6);
+		DatabaseIntegrations.executeQuery(query,4);
+		System.out.println(DatabaseIntegrations.getColumnValue());
+		return DatabaseIntegrations.getColumnValue();
+		
+	}
+	
+	/**
+	 * This method is used to get last name from DB
+	 * 
+	 * @return
+	 * @throws SQLException
+	 * @throws IOException 
+	 */
+	public String getLastNmfromDB() throws SQLException, IOException {
+		
+		loadTestDataFile();
+		String query=prop.getProperty("users")+readExcelData("Join", 1, 6);
+		DatabaseIntegrations.executeQuery(query,5);
+		System.out.println(DatabaseIntegrations.getColumnValue());
+		return DatabaseIntegrations.getColumnValue();
+		
+	}
+}

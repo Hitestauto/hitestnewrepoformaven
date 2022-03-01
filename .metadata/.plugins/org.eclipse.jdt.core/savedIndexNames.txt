@@ -1,0 +1,8 @@
+INDEX VERSION 1.130+E:\AzureHitestdemo\.metadata\.plugins\org.eclipse.jdt.core
+4194824057.index
+3957269362.index
+1399969114.index
+3304281849.index
+1397486112.index
+1979256265.index
+3303171396.index

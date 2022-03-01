@@ -1,0 +1,58 @@
+/**
+ * 
+ */
+package esconsumer_usersite.modules;
+
+import java.util.ArrayList;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import esconsumer_usersite.baseclass.BaseClass;
+
+
+/**
+ * @author Sunil Kashyap
+ *
+ * 15 Oct, 2020
+ */
+public class Contact {
+	
+	@FindBy(xpath = "(//a[contains(text(),'Contacto')])[1]") WebElement contactUS;
+	@FindBy(xpath = "(//div[@id='header--gold--collapse']/ancestor::nav/following-sibling::div/descendant::img[2])[1]") WebElement schlesingerImg;
+	
+	WebDriver driver;
+	public Contact(WebDriver driver) {
+		
+		this.driver=driver;
+		PageFactory.initElements(driver, this);
+	}
+	
+	/**
+	 * This method is used to check and verify contact page is working or not
+	 * @return
+	 */
+	public boolean verifyContactUsPage() {
+		
+		contactUS.click();
+
+		ArrayList<String> arraylist=new ArrayList<String>((driver.getWindowHandles()));
+		driver.switchTo().window(arraylist.get(1));
+		BaseClass.sleep(2000);
+		boolean img=schlesingerImg.isDisplayed();
+		BaseClass.sleep(1000);
+		driver.close();
+		driver.switchTo().window(arraylist.get(0));
+		
+		if(img==true) {
+			System.out.println("Contact Us page is open successfully - "+img);
+			return img;
+		}
+		else {
+			System.out.println("Contact Us page is not open - "+img);
+			return img;
+		}
+	}
+}
